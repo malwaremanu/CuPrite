@@ -1,4 +1,4 @@
-# jibin-todo-application
+# Nuxt Deta.sh Collaboration
 
 ## Build Setup
 
