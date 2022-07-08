@@ -1,66 +1,39 @@
 <template>
-  <div>
-    <Header title="Welcome to Homepage" />
+    <div class="p-2 min-h-screen bg-ibps-900">    
+        <center class="py-5 mt-14">
+            
+            <Logo />
 
-    <div>
-     
+            <br>
+
+            <div class="font-semibold text-center text-white text-xl"> 
+                IBPS Madad 
+            </div>
+        </center>    
+        
+    <div class="p-2  flex flex-col gap-4">
+        <nuxt-link to="/login"> <Buttonsecondary title="Login" /> </nuxt-link>
+        <nuxt-link to="/register"> <Buttonsecondary title="Register" /> </nuxt-link>   
     </div>
 
-    <div class="p-3">
-      
-      <NuxtLink to="/add">
-        <button class="bg-blue-600 p-3 text-white">Add New</button>
-      </NuxtLink>
-
-      <button @click="get_data">Refresh Data</button>
-
-      <table class="table-auto w-full p-3 border border-red-500">
-        <thead>
-          <tr>
-            <th class="text-left p-2">Name</th>
-            <th class="text-left p-2">Password</th>
-            <th class="text-left p-2">Age</th>
-            <th class="text-left p-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="data in data_from_db" :key="data.id">
-            <td>{{ data.name }}</td>
-            <td>{{ data.password }}</td>
-            <td>{{ data.age }}</td>
-            <td>Delete Edit</td>
-          </tr>          
-        </tbody>
-      </table>
+    <div class="text-center text-xs font-semibold py-8 text-white">
+        Ver 0.0.1 Beta
     </div>
-  </div>
+    
+    <!--         
+        <button class="p-4 text-white text-center">
+            <nuxt-link to="/">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
+            </nuxt-link>    
+        </button> 
+    -->
+
+    </div>
 </template>
 
-
 <script>
-import Header from '~/components/header.vue'
+
 export default {
-  data(){
-    return {
-      data_from_db : []
-    }
-  },  
-  methods: {
-    hello() {
-      alert('all good.')
-    },
-
-    get_data(){
-      fetch('http://127.0.0.1:8000/db')
-            .then(response => response.json())
-            .then(data => this.data_from_db = data.data.users);
-    }
-  },
-
-  beforeMount(){
-    this.get_data()
- },
-
-  components: { Header },
+    
 }
 </script>

@@ -7,11 +7,11 @@
       </NuxtLink>      
     </div>        
 
-    <div class="font-semibold">
-      Login
-    </div>
+      <div class="font-semibold">
+        <NuxtLink to="/login">Login </NuxtLink>
+      </div>
 
-  </div>
+    </div>
 
 
   <div class="bg-blue-900 text-white text-center p-8 font-semibold" >
