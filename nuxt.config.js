@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'jibin-todo-application',
+    title: 'IBPS Scribe DB',
     htmlAttrs: {
       lang: 'en',
     },
