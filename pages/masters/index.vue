@@ -272,7 +272,7 @@
 </template>
 
 <script>
-var url = 'https://bhumimines.com/cuprite/'
+var url = process.env.base_url
 export default {
   data() {
     return {
