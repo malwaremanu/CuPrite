@@ -1,33 +1,14 @@
 <template>
-  <div class="p-2 min-h-screen bg-ibps-900 select-none">
-    <div class="bg-ibps-900">
-      <button class="p-4 text-white text-center">
-        <nuxt-link to="/">
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-            />
-          </svg>
-        </nuxt-link>
-      </button>
-    </div>
-
+  <div class="p-2 min-h-screen bg-gray-900 select-none">
+    <Backhome />
+    
     <div class="lg:flex items-center gap-2 w-full my-2 mx-auto lg:p-9">
       <center class="py-5 lg:w-1/3">
         <Logo />
       </center>
 
       <div class="p-4 lg:p-9 flex flex-col gap-5 bg-white rounded-2xl lg:w-2/3">
-        <div class="flex justify-between text-ibps-800 text-sm font-light p-2 items-center">
+        <!-- <div class="flex justify-between text-gray-800 text-sm font-light p-2 items-center">
           <div class="font-semibold text-lg">Initial Registration</div>
 
           <div>Login and Complete Profile</div>
@@ -86,33 +67,28 @@
             <label>&nbsp;</label>
             <Buttonprimary title="Submit" />
           </div>
-        </div>
+        </div> -->
 
-      <div>
-
-          
-        </div>
-
+        <p class="font-semibold text-center ">
+            Registrations are not open. 
+            Please contact office.
+        </p>
       </div>
-    </div>
+    </div> 
+
+
 
     <Footer />
   </div>
 </template>
 
 
-<script>
-export default {
-}
-</script>
+<!-- <style lang="postcss" scoped>
+// input {
+//   @apply border border-gray-400 w-full rounded-md py-2 px-3 text-sm;
+// }
 
-
-<style lang="postcss" scoped>
-input {
-  @apply border border-ibps-400 w-full rounded-md py-2 px-3 text-sm;
-}
-
-div label {
-  @apply text-gray-500 text-xs py-1;
-}
-</style>
+// div label {
+//   @apply text-gray-500 text-xs py-1;
+// }
+// </style> -->

@@ -1,6 +1,6 @@
 <template>
 <div>
-<div class="flex items-center justify-between py-4 text-blue-800 p-2">
+<div class="flex items-center justify-between py-4 text-gray-800 p-2">
     <div>
       <NuxtLink to="/">
         <img src="~/assets/logo-hrms.png" class="h-10" />
@@ -14,7 +14,7 @@
     </div>
 
 
-  <div class="bg-blue-900 text-white text-center p-8 font-semibold" >
+  <div class="bg-gray-900 text-white text-center p-8 font-semibold" >
     {{ title }}
   </div>
 </div>

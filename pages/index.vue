@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 min-h-screen bg-ibps-900 mx-auto">
+  <div class="p-2 min-h-screen bg-gray-900 mx-auto">
     <div class="lg:flex items-center gap-2 w-full mx-auto">
       <center class="py-5 mt-14 lg:w-1/2">
         <Logo />
@@ -16,6 +16,11 @@
         </center>
       </div>
     </div>
+
+    <nuxt-link to="/masters">
+            <Buttonsecondary title="Masters" />
+    </nuxt-link>
+
     <Footer />
   </div>
 </template>

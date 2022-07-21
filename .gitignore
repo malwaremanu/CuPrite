@@ -7,6 +7,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Deta App
+fakeapi
+.deta 
+
 # Runtime data
 pids
 *.pid

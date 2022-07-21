@@ -1,25 +1,6 @@
 <template>
-  <div class="p-2 min-h-screen bg-ibps-900 select-none">
-    <div class="bg-ibps-900">
-      <button class="p-4 text-white text-center">
-        <nuxt-link to="/">
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-            />
-          </svg>
-        </nuxt-link>
-      </button>
-    </div>
+  <div class="p-2 min-h-screen bg-gray-900 select-none">
+    <Backhome />
 
     <div class="lg:flex items-center gap-2 w-full mt-14 mx-auto lg:w-1/2">
       <center class="py-5 p-2 lg:w-1/2">
@@ -27,29 +8,32 @@
       </center>
 
       <div class="px-8 py-3 bg-white rounded-xl lg:w-1/2">
-        <div class="text-ibps-900 text-center pt-2 text-xl">
+        <div class="text-gray-900 text-center pt-2 text-xl">
             Login Panel
         </div>
 
         <div class="py-2">
           <div class="text-gray-400">
-            Email ID
+            Email ID / Username
           </div>
-          <input type="text" class="px-4 py-2 border border-gray-400 rounded-lg w-full" />
+          <input type="text" class="px-4 py-2 border border-gray-400 rounded-lg w-full" v-model="username" />
         </div>
 
         <div class="py-2">
           <div class="text-gray-400">Password</div>
-          <input type="password" class="px-4 py-2 border border-gray-400 rounded-lg w-full" />
+          <input type="password" class="px-4 py-2 border border-gray-400 rounded-lg w-full" v-model="password" />
+
           <div class="text-right">
             <span
               @click="walert"
-              class="text-gray-400 hover:text-ibps-900 font-light cursor-pointer text-sm"
+              class="text-gray-400 hover:text-gray-900 font-light cursor-pointer text-sm"
             >reset password ?</span>
           </div>
         </div>
 
-        <div class="py-2">
+        <div class="text-center text-xs lower"> {{ popup_msg }} </div>
+
+        <div class="py-2" @click="login">
             <Buttonprimary title="Login" />
         </div>
 
@@ -66,11 +50,39 @@
 </template>
 
 <script>
+
+var url = "https://c.suryamines.com/cuprite/"
 export default {
+  data(){
+    return {
+      username : 'manupal',
+      password : '',
+      popup_msg : 'Sample msg',
+    }
+  },
   methods: {
     walert() {
       alert('We will work on it later on.')
     },
+    login(){
+      let self = this
+      const axios = require('axios').default;
+      console.log(this.username)
+      console.log(this.password)
+      
+      axios.post(url + 'user/login', {
+        username: this.username,
+        password: this.password
+      })
+      .then(function (response) {
+        console.log('this is response', response.data.msg)
+        self.popup_msg = response.data.msg
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
   },
 }
 </script>
