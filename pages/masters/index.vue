@@ -272,7 +272,7 @@
 </template>
 
 <script>
-var url = 'https://c.suryamines.com/cuprite/'
+var url = 'https://bhumimines.com/cuprite/'
 export default {
   data() {
     return {
