@@ -40,8 +40,8 @@
           class="text-center text-xs lower p-1 border rounded-md"
         >{{ popup_msg }}</div>
 
-        <div class="py-2" @click="login">
-          <Buttonprimary title="Login" />
+        <div class="py-2" @click="login" @keyup.enter="login">
+          <Buttonprimary :title="login_btn" />
         </div>
 
         <div class="py-2">
@@ -64,6 +64,7 @@ export default {
       username: 'manupal',
       password: '',
       popup_msg: '',
+      login_btn : 'Login',
     }
   },
   methods: {
@@ -72,6 +73,7 @@ export default {
     },
     login() {
       let self = this
+      self.login_btn = "Logging in..."
       const axios = require('axios').default
       console.log(this.username)
       console.log(this.password)
@@ -86,9 +88,11 @@ export default {
           self.popup_msg = response.data.msg
           if(response.data.status == 'error'){
               alert(response.data.msg)
+              self.login_btn = "Login"
           }
           if(response.data.status == 'success'){
               //alert(response.data.msg)
+              self.login_btn = "Logged In."
               window.location.replace('/masters')
           }
           

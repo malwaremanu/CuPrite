@@ -4,7 +4,6 @@
       <center class="py-5 mt-14 lg:w-1/2">
         <Logo />
       </center>
-
       <div class="lg:w-1/2">
         <center class="p-2 flex flex-col gap-4 lg:w-1/2 mx-auto">
           <nuxt-link to="/login">
@@ -16,11 +15,6 @@
         </center>
       </div>
     </div>
-
-    <nuxt-link to="/masters">
-            <Buttonsecondary title="Masters" />
-    </nuxt-link>
-
     <Footer />
   </div>
 </template>
