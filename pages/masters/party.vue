@@ -373,7 +373,7 @@
 </template>
 
 <script>
-var url = process.env.dev_url
+var url = process.env.base_url
 
 export default {
   data() {
