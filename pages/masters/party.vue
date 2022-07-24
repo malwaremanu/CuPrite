@@ -52,10 +52,10 @@
 
           <button
             @click="party_popup('show', 'Create')"
-            class="flex items-center font-semibold bg-white px-4 py-2 m-1 rounded-full hover:bg-slate-100 active:bg-slate-200 gap-1"
+            class="px-4 py-2 flex items-center bg-white rounded-full text-gray-900 m-1 gap-1"
           >
             <svg
-              class="w-6 h-6"
+              class="w-4 h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -79,11 +79,9 @@
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-sm text-gray-200 uppercase bg-gray-900 border border-gray-700">
               <tr>
-                <th scope="col" class="py-3 px-6">Name</th>
-                <th scope="col" class="py-3 px-6">Address</th>
-                <th scope="col" class="py-3 px-6">Email</th>
-                <th scope="col" class="py-3 px-6">Registration Details</th>
+                <th scope="col" class="py-3 px-6">Name & Address</th>
                 <th scope="col" class="py-3 px-6">Contact Details</th>
+                <th scope="col" class="py-3 px-6">Registration Details</th>
                 <th scope="col" class="py-3 px-6">Contact Person Details</th>
                 <th scope="col" class="py-3 px-6">Added By</th>
                 <th scope="col" class="py-3 px-6">Action</th>
@@ -117,12 +115,45 @@
                       />
                     </svg>
                   </i>
+                  <br>
+                  <div class="text-gray-300 text-xs ">
+                    {{ party.p_address_1 }}
+                    <br />
+                    {{ party.p_address_2 }}
+                  </div>
+                  
+                </td>               
+                <td class="py-4 px-6">
+                  {{ party.p_contacts_phone }}
+                  <br />
+                  {{ party.p_contacts_fax }}
+                  <br />
+                  {{ party.p_contacts_phone }}
+                  <br />
+                  {{ party.p_contacts_website }}
                 </td>
-                <td class="py-4 px-6">{{ party.p_address }}</td>
-                <td class="py-4 px-6">{{ party.p_email }}</td>
-                <td class="py-4 px-6">---</td>
-                <td class="py-4 px-6">---</td>
-                <td class="py-4 px-6">---</td>
+                <td class="py-4 px-6">
+                  {{ party.p_contacts_email }}
+                  <br />
+                  {{ party.p_contacts_phone }}
+                  <br />
+                  {{ party.p_contacts_fax }}
+                  <br />
+                  {{ party.p_contacts_website }}
+                </td>
+                <td class="py-4 px-6">
+                  {{ party.p_cp_1_name }}
+                  <br />
+                  {{ party.p_cp_1_phone }}
+                  <br />
+                  {{ party.p_cp_1_email }}
+                  <hr />
+                  {{ party.p_cp_2_name }}
+                  <br />
+                  {{ party.p_cp_2_phone }}
+                  <br />
+                  {{ party.p_cp_2_email }}
+                </td>
 
                 <td class="py-4 px-6">
                   {{ party.p_author }}
@@ -212,82 +243,87 @@
                       </div>
                     </div>
 
-                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-1">
+                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-2">
                       <label class="text-left text-white p-2">Company Contact Details</label>
                       <div class="text-white mb-2 md:flex items-center gap-3 w-full">
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Telephone</div>
-                          <input type="text" v-model="temp_party.p_telephone" />
+                          <input type="text" v-model="temp_party.p_contacts_phone" />
                         </div>
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Fax</div>
-                          <input type="text" v-model="temp_party.p_fax" />
+                          <input type="text" v-model="temp_party.p_contacts_fax" />
+                        </div>
+
+                        <div class="w-full">
+                          <div class="text-xs p-1 text-left">Email</div>
+                          <input type="text" v-model="temp_party.p_contacts_email" />
                         </div>
 
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Website</div>
-                          <input type="text" v-model="temp_party.p_website" />
+                          <input type="text" v-model="temp_party.p_contacts_website" />
                         </div>
                       </div>
                     </div>
 
-                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-1">
+                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-2">
                       <label class="text-left text-white p-2">Company Registration</label>
                       <div class="text-white mb-2 md:flex items-center gap-3 w-full">
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">N° RCCM</div>
-                          <input type="text" v-model="temp_party.p_id.rccm" />
+                          <input type="text" v-model="temp_party.p_id_rccm" />
                         </div>
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">N° NIF</div>
-                          <input type="text" v-model="temp_party.p_id.nif" />
+                          <input type="text" v-model="temp_party.p_id_nif" />
                         </div>
 
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">N° ID</div>
-                          <input type="text" v-model="temp_party.p_id.id" />
+                          <input type="text" v-model="temp_party.p_id_id" />
                         </div>
 
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">NAT N° TVA</div>
-                          <input type="text" v-model="temp_party.p_id.tva" />
+                          <input type="text" v-model="temp_party.p_id_tva" />
                         </div>
                       </div>
                     </div>
 
-                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-1">
+                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-2">
                       <label class="text-left text-white p-2">Contact Person</label>
                       <div class="text-white mb-2 md:flex items-center gap-3 w-full">
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Name</div>
-                          <input type="text" v-model="temp_party.p_cp_1.name" />
+                          <input type="text" v-model="temp_party.p_cp_1_name" />
                         </div>
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Phone</div>
-                          <input type="text" v-model="temp_party.p_cp_1.phone" />
+                          <input type="text" v-model="temp_party.p_cp_1_phone" />
                         </div>
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Email</div>
-                          <input type="text" v-model="temp_party.p_cp_1.email" />
+                          <input type="text" v-model="temp_party.p_cp_1_email" />
                         </div>
                       </div>
                     </div>
 
-                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-1">
+                    <div class="p-0.5 border border-gray-600 rounded px-4 py-2 my-2">
                       <label class="text-left text-white p-2">Contact Person 2</label>
                       <div class="text-white mb-2 md:flex items-center gap-3 w-full">
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Name</div>
-                          <input type="text" v-model="temp_party.p_cp_2.name" />
+                          <input type="text" v-model="temp_party.p_cp_2_name" />
                         </div>
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Phone</div>
-                          <input type="text" v-model="temp_party.p_cp_2.phone" />
+                          <input type="text" v-model="temp_party.p_cp_2_phone" />
                         </div>
 
                         <div class="w-full">
                           <div class="text-xs p-1 text-left">Email</div>
-                          <input type="text" v-model="temp_party.p_cp_2.email" />
+                          <input type="text" v-model="temp_party.p_cp_2_email" />
                         </div>
                       </div>
                     </div>
@@ -337,7 +373,7 @@
 </template>
 
 <script>
-var url = process.env.base_url
+var url = process.env.dev_url
 
 export default {
   data() {
@@ -346,30 +382,24 @@ export default {
       password: '',
       edit_create: '',
       temp_party: {
-        p_name: '',
+        p_name: 'Manupal Choudhary',
         p_address_1: '',
         p_address_2: '',
-        p_author: '',
-        p_email: '',
-        p_date: '',
-        p_company: '',
-        p_is_active: false,
-        p_id: {
-          rccm: '',
-          tva: '',
-          id: '',
-          nif: '',
-        },
-        p_cp_1: {
-          name: '',
-          phone: '',
-          email: '',
-        },
-        p_cp_2: {
-          name: '',
-          phone: '',
-          email: '',
-        },
+        p_id_rccm: '',
+        p_id_id: '',
+        p_id_tva: '',
+        p_id_nif: '',
+        p_cp_1_name: '',
+        p_cp_1_phone: '',
+        p_cp_1_email: '',
+        p_cp_2_name: '',
+        p_cp_2_phone: '',
+        p_cp_2_email: '',
+        p_contacts_email: '',
+        p_contacts_phone: '',
+        p_contacts_fax: '',
+        p_contacts_website: '',
+        p_is_active: true,
       },
       parties: [],
     }
@@ -378,30 +408,32 @@ export default {
     this.get_data() //method1 will execute at pageload
   },
   methods: {
+    cons(x) {
+      console.log(x)
+    },
     party_popup(x, y, z) {
       if (x == 'show' && y == 'Create') {
         this.add_party_modal = true
-        this.temp_party = {}
-        this.temp_party.p_cp_1 = {}
-        this.temp_party.p_cp_2 = {}
-        this.temp_party.p_id = {}
+        // this.temp_party = {}
+        // this.temp_party.p_cp_1 = {}
+        // this.temp_party.p_cp_2 = {}
+        // this.temp_party.p_id = {}
         this.edit_create = y
       } else if (x == 'show' && y == 'Edit') {
         this.add_party_modal = true
         this.edit_create = y
         this.temp_party = z
+        console.log(z)
       } else {
         this.add_party_modal = false
         this.edit_create = ''
         this.temp_party = {}
-        this.temp_party.p_cp_1 = {}
-        this.temp_party.p_cp_2 = {}
-        this.temp_party.p_id = {}
       }
     },
 
     get_data() {
       let self = this
+      console.log('url is' + url)
       const axios = require('axios').default
       axios
         .get(url + 'masters/parties')
@@ -447,9 +479,7 @@ export default {
       const axios = require('axios').default
       console.log(self.temp_party)
       axios
-        .post(url + 'masters/parties', {
-          p_data: this.temp_party,        
-        })
+        .post(url + 'masters/parties', this.temp_party)
         .then(function (response) {
           console.log('this is post data', response.data.msg)
           self.popup_msg = response.data.msg
@@ -478,10 +508,7 @@ export default {
       let self = this
       const axios = require('axios').default
       axios
-        .put(url + 'masters/parties/' + puuid, {
-          p_uuid: puuid,
-          p_data: this.temp_party,          
-        })
+        .put(url + 'masters/parties/' + puuid, self.temp_party)
         .then(function (response) {
           console.log('this is put', response.data.msg)
           self.popup_msg = response.data.msg

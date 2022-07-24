@@ -2,7 +2,8 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
   env: {
-    base_url: process.env.base_url
+    base_url: process.env.base_url,
+    dev_url : process.env.dev_url
   },
   content: [
     "./components/**/*.{js,vue,ts}",
