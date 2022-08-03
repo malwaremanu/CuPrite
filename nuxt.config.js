@@ -55,7 +55,8 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: process.env.base_url,
-    browserBaseURL : process.env.base_url
+    browserBaseURL : process.env.base_url,
+    api_url : "https://6tv4vea5c9.execute-api.ap-south-1.amazonaws.com/"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

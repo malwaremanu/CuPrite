@@ -4,7 +4,7 @@
 
     <div class="lg:flex items-center gap-2 w-full mt-14 mx-auto lg:w-1/2">
       <center class="py-5 p-2 lg:w-1/2">
-        <Logo class="py-2" />
+        <Logo class="py-2 hidden" />
       </center>
 
       <div class="px-8 py-3 bg-white rounded-xl lg:w-1/2">
@@ -40,7 +40,7 @@
           class="text-center text-xs lower p-1 border rounded-md"
         >{{ popup_msg }}</div>
 
-        <div class="py-2" @click="login" @keyup.enter="login">
+        <div class="py-2" @click="login_token">
           <Buttonprimary :title="login_btn" />
         </div>
 
@@ -58,11 +58,13 @@
 
 <script>
 var url = process.env.base_url
+const axios = require('axios').default
 export default {
+  pageTransition: 'page',
   data() {
     return {
-      username: 'manupal',
-      password: '',
+      username: 'malwareman',
+      password: 'Manu@harper1',
       popup_msg: '',
       login_btn : 'Login',
     }
@@ -74,7 +76,7 @@ export default {
     login() {
       let self = this
       self.login_btn = "Logging in..."
-      const axios = require('axios').default
+      
       console.log(this.username)
       console.log(this.password)
 
@@ -93,7 +95,7 @@ export default {
           if(response.data.status == 'success'){
               //alert(response.data.msg)
               self.login_btn = "Logged In."
-              window.location.replace('/masters')
+              window.location.replace('/dasbhoard')
           }
           
           console.log(response)
@@ -102,6 +104,34 @@ export default {
           console.log(error)
         })
     },
+    login_token(){
+      let self = this
+      self.login_btn = "Logging in..."
+      axios
+        .post(self.$store.state.api_url, {
+          "operation": "create_authentication_tokens",
+          username: this.username,
+          password: this.password
+      }).then(function (response) {
+          console.log('this is response', response.data.msg)
+          if(response.status == 200){          
+              self.login_btn = "Login Succesfull"
+              document.cookie = "operation_token=" + response.data.operation_token;              
+              document.cookie = "refresh_token=" + response.data.refresh_token;        
+              self.$router.push('/dashboard')
+          }
+          if(response.status == 401){  
+            alert("Error : Please try again.")
+          }                    
+        })
+        .catch(function (error) {
+          alert(error.response.data.error)
+          document.cookie = "operation_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          document.cookie = "refresh_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';          
+          self.login_btn = "Login"   
+        })
+
+    }
   },
 }
 </script>

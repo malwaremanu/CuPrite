@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-900 select-none">
     <div class="bg-gray-900 p-2 flex items-center">
       <button class="p-2 text-white text-center">
-        <NuxtLink to="/">
+        <NuxtLink to="/dashboard">
           <svg
             class="w-6 h-6"
             fill="none"
@@ -42,7 +42,7 @@
           class="p-4 border border-gray-600 hover:border-gray-400 rounded-xl shadow-xl flex items-center gap-3"
         >
           <img
-            src="https://cdn-icons.flaticon.com/png/512/4300/premium/4300059.png?token=exp=1658639480~hmac=9f8c56d78b14a312a4fa654ff8098708"
+            src="https://cdn-icons-png.flaticon.com/512/1584/1584961.png"
             class="bg-white h-14 rounded-xl p-1"
           />
           <div class="text-xl">Our Company</div>
