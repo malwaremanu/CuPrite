@@ -59,6 +59,7 @@
 <script>
 var url = process.env.base_url
 const axios = require('axios').default
+
 export default {
   pageTransition: 'page',
   data() {
@@ -116,8 +117,14 @@ export default {
           console.log('this is response', response.data.msg)
           if(response.status == 200){          
               self.login_btn = "Login Succesfull"
-              document.cookie = "operation_token=" + response.data.operation_token;              
-              document.cookie = "refresh_token=" + response.data.refresh_token;        
+              // document.cookie = "operation_token=" + response.data.operation_token;              
+                // localStorage.setItem("operation_token", response.data.operation_token);
+
+                sessionStorage.setItem("operation_token", response.data.operation_token);
+                sessionStorage.setItem("refresh_token", response.data.refresh_token);
+
+                // localStorage.setItem("refresh_token", response.data.refresh_token)
+              // document.cookie = "refresh_token=" + response.data.refresh_token;        
               self.$router.push('/dashboard')
           }
           if(response.status == 401){  
@@ -126,8 +133,10 @@ export default {
         })
         .catch(function (error) {
           alert(error.response.data.error)
-          document.cookie = "operation_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-          document.cookie = "refresh_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';          
+          // document.cookie = "operation_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          sessionStorage.removeItem("operation_token");
+          sessionStorage.removeItem("refresh_token");
+          // document.cookie = "refresh_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';          
           self.login_btn = "Login"   
         })
 

@@ -15,14 +15,15 @@
             alt="Bonnie image"
           />
           <div class="flex flex-col p-1">
-            <h5 class="text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-            <span class="-mt-0.5 text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+            <h5 class="text-xl font-medium text-gray-900 dark:text-white" 
+            :class="user[0].name == '' ? 'h-6 w-40 bg-slate-700 rounded col-span-2 animate-pulse' : ''"> {{ user[0].name }} </h5>
+            <span class="-mt-0.5 text-sm text-gray-500 dark:text-gray-400">  </span>
           </div>
         </div>
 
         <div>
           <div @click="logout"
-            class="text-gray-500 p-2 border border-gray-500 rounded-xl text-xl flex items-center gap-2 cursor-pointer"
+            class="text-red-500 hovet:text-red-500 hover:bg-red-700/60 p-2 border border-gray-500 hover:border-red-500 rounded-xl text-xl flex items-center gap-2 cursor-pointer"
           >
             <svg
               class="w-6 h-6"
@@ -82,14 +83,62 @@
 
 <script>
 import Bottombar from '../components/bottombar.vue'
+import api from '../api'
+
 export default {
-  pageTransition: 'page',
+  data(){
+    return {
+      user_me : {
+        role : {
+          id : ''
+        }
+      },
+      user : [
+        {
+          name : ''
+        }
+      ]
+    }
+  },
+
+  // async asyncData() {
+  //   this.user_me = await api({
+  //       "operation": "user_info",
+  //       "sql": "SELECT * FROM user.bio"
+  //     })
+  
+  //   this.user = await api({
+  //     "operation": "sql",
+  //     "sql": "SELECT * FROM users.bio where ref_uuid ='" + sessionStorage.getItem("my_id") + "'"
+  //   })    
+  // },
+
+  mounted: function () {
+    this.get_data() //method1 will execute at pageload
+  },
   methods: {
     logout() { 
       const self = this     
-      document.cookie = "operation_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      document.cookie = "refresh_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';     
+      sessionStorage.removeItem("operation_token")
+      sessionStorage.removeItem("refresh_token")
+      sessionStorage.removeItem("my_id")
+      
       self.$router.push('/login')
+    },
+    async get_data() {
+      this.user_me = await api({
+        "operation": "user_info",
+        "sql": "SELECT * FROM user.bio"
+      })
+
+      if(this.user_me){
+        this.user = await api({
+          "operation": "sql",
+          "sql": "SELECT * FROM users.bio where ref_uuid ='" + this.user_me.role.id + "'"
+        })
+      }
+      
+      console.log(this.user)
     },
   },
   components: { Bottombar },
@@ -97,11 +146,11 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.btn_nav {
-  @apply text-white hover:text-gray-100 bg-gray-800 rounded-xl text-center;
-}
+  .btn_nav {
+    @apply text-white hover:text-gray-100 bg-gray-800 rounded-xl text-center;
+  }
 
-.btn_nav div {
-  @apply mt-1 text-sm;
-}
+  .btn_nav div {
+    @apply mt-1 text-sm;
+  }
 </style>

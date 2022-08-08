@@ -70,13 +70,41 @@
 
 <script>
 import Bottombar from '../components/bottombar.vue'
+import api from '../api'
+
 export default {
   pageTransition: 'page',
+  data(){
+    return {
+      user_me : {
+        role : {
+          id : ''
+        }
+      },
+      user : [
+        {
+          name : ''
+        }
+      ]
+    }
+  },
+  mounted: function () {
+    this.fetch_me()
+    
+  },
   methods: {
     walert() {
       alert(this.$store.state.api_url)
       //console.log(this)
     },
+    async fetch_me(){
+      this.user_me = await api({
+        "operation": "user_info",
+      })
+      sessionStorage.setItem("my_id",this.user_me.role.id)      
+    }
+
+    
   },
   components: { Bottombar },
 }

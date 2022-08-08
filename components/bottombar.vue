@@ -1,8 +1,7 @@
 <template>
-  <nav class="rounded-t-3xl px-2 sm:px-4 py-2.5 dark:bg-gray-800 fixed w-full z-20 bottom-0 left-0">
-    <div class="w-full flex justify-between items-center px-6 py-2 text-white">
+  <nav class="rounded-t-3xl px-2 sm:px-4 py-2.5 dark:bg-gray-800 fixed z-20 w-full md:w-96 bottom-0 inset-x-0 mx-auto border border-white/20 border-b-0">
+    <div class="flex justify-between items-center px-6 py-2 text-white gap-3">
       <nuxt-link to="/dashboard">
-      
       <button class="btn_nav">
         <center>
           <svg
@@ -100,11 +99,11 @@
 </template>
 
 <style lang="postcss" scoped>
-.btn_nav {
-  @apply text-white hover:text-gray-100 rounded-xl text-center;
-}
+  .btn_nav {
+    @apply text-white hover:text-gray-100 rounded-xl text-center;
+  }
 
-.btn_nav div {
-  @apply mt-1 text-xs;
-}
+  .btn_nav div {
+    @apply mt-1 text-xs;
+  }
 </style>
