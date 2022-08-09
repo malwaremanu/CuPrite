@@ -113,7 +113,7 @@ export default {
           "operation": "create_authentication_tokens",
           username: this.username,
           password: this.password
-      }).then(function (response) {
+        }).then(function (response) {
           console.log('this is response', response.data.msg)
           if(response.status == 200){          
               self.login_btn = "Login Succesfull"
@@ -137,7 +137,7 @@ export default {
           sessionStorage.removeItem("operation_token");
           sessionStorage.removeItem("refresh_token");
           // document.cookie = "refresh_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';          
-          self.login_btn = "Login"   
+          self.login_btn = "Login";
         })
 
     }

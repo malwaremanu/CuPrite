@@ -1,0 +1,15 @@
+{
+    "DISCOUNT": 1808.37,
+    "TVA": "16%",
+    "id": "135a7be1-6eb9-4f11-82d3-4691fefa52e6",
+    "PO_DATE": "05-05-2022",
+    "AMOUNT": 18083.69,
+    "__createdtime__": 1659176217337,
+    "PO_NUMBER": "SM/22-544",
+    "TYPE": "PURCHASE",
+    "__updatedtime__": 1659176217337,
+    "TVA_AMOUNT": "2,893.39",
+    "SUPPLIER": "PANAFRIQUE MOTORS S.A.R.L",
+    "FROM": "SEMHKAT",
+    "GROSS_AMOUNT": "19,168.71"        
+}
