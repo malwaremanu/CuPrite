@@ -74,106 +74,113 @@
         Employee Details
       </a>
 
-      <div
-        v-for="user in employees"
-        :key="user.id"
-        class="
-          block
-          py-2
-          px-4
-          w-full
-          border-b border-gray-200
-          cursor-pointer
-          hover:bg-gray-100 hover:text-blue-700
-          focus:outline-none
-          focus:ring-2
-          focus:ring-blue-700
-          focus:text-blue-700
-          dark:border-gray-600
-          dark:hover:bg-gray-600
-          dark:hover:text-white
-          dark:focus:ring-gray-500
-          dark:focus:text-white
-        "
-      >
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="flex items-center gap-2">
-              <img
-                v-if="user.COUNTRY == 'INDIA'"
-                class="w-5"
-                src="https://cdn-icons-png.flaticon.com/512/3909/3909444.png"
-                alt=""
-              />
-              <div class="text-lg">{{ user.NAME }}</div>
-            </div>
+      <div class="block py-2 px-4 w-full outline-none ">
+        <div class="py-1.5">
+          <div class="mb-1"> PASSPORT NO </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+        
+        <div class="py-1.5">
+          <div class="mb-1"> PASSPORT EXPIRY </div>
+          <input type="date" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
 
-            <div class="flex items-center gap-3">
-              <div class="text-sm text-gray-300">{{ user.PASSPORT_NO }}</div>
-              <div class="text-sm text-red-600">
-                {{ moment_date(user.PASSPORT_EXPIRY) }}
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="py-1.5">
+          <div class="mb-1"> COUNTRY </div>
+          <select class="bg-transparent border px-4 py-2 w-full rounded border-gray-400">
+            <option value="INDIA">INDIA</option>
+            <option value="PAKISTAN">PAKISTAN</option>
+            <option value="DRC">DRC</option>            
+          </select>
+        </div>         
 
-        <div v-for="(value, key) in user" :key="key" class="hidden">
-          {{ key }} - {{ value }}
+        <div class="py-1.5">
+          <div class="mb-1"> DATE OF BIRTH </div>
+          <input type="date" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+
+        <div class="py-1.5">
+          <div class="mb-1"> PLACE OF BIRTH </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+
+
+        <div class="py-1.5">
+          <div class="mb-1"> FIRST NAME (as per Passport) </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+
+        <div class="py-1.5">
+          <div class="mb-1"> SURNAME </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+       
+        <div class="py-1.5">
+          <div class="mb-1"> ADDRESS </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+
+        <div class="py-1.5">
+          <div class="mb-1"> STATE </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+
+        <div class="py-1.5">
+          <div class="mb-1"> COUNTRY CODE </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+
+        <div class="py-1.5">
+          <div class="mb-1"> PIN_CODE </div>
+          <input type="text" class="bg-transparent border px-4 py-2 w-full rounded border-gray-400" />
+        </div> 
+
+        <div class="py-1.5">
+          <div class="mb-1"> GENDER </div>
+          <select class="bg-transparent border px-4 py-2 w-full rounded border-gray-400">
+            <option value="M">MALE</option>
+            <option value="F">FEMALE</option>
+            <option value="O">OTHER</option>            
+          </select>
+        </div> 
+
+        
+        <!-- 
+          {
+              "PASSPORT_EXPIRY": "26/05/2023",
+              "id": "047f91af-b9c8-40b4-96b2-205cd5e8da6e",
+              "COUNTRY": "INDIA",
+              "__createdtime__": 1660095577580,
+              "GIVEN_NAME": "VENKATESAN",
+              "DATE_OF_BIRTH": "01/06/1978",
+              "SURNAME": "ARUMUGAM MUDALIAR",
+              "NAME": "ARUMUGAM MUDALIAR VENKATESAN",
+              "PASSPORT_EXPIRY_IN": 289,
+              "GENDER": "M",
+              "STATE": "TAMILNADU",
+              "COUNTRY_CODE": "IND",
+              "PLACE_OF_BIRTH": "BHANDUP, MAHARASHTRA",
+              "ADDRESS": "NO. 1/57-A, PILLIAR KOIL STREET, KANKEYANALLUR, GUDIYATHAM, VELLORE",
+              "PASSPORT_NO": "L3331570",
+              "__updatedtime__": 1660095577580,
+              "PIN_CODE": 632006,
+              "UUID": "L3331570"
+          } 
+        -->
+
+      </div>
+
+      <div class="block py-2 px-4 w-full outline-none">
+        <div class="flex items-center gap-2">
+          <button class="px-4 py-2 bg-gray-900 border border-gray-700 hover:bg-gray-800 rounded"> Save </button>
+          <button class="px-4 py-2 border border-gray-900 text-gray-300 rounded"> Reset </button>
         </div>
       </div>
+
+     
     </div>
 
-    <div class="mx-auto max-w-lg">
-      <div role="status" class="my-7 animate-pulse">
-        <div
-          class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-48 mb-4"
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[460px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[500px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[450px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[380px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px]"
-        ></div>
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
+     <div class="mb-20"></div>
   </div>
 </template>
 

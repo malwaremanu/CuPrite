@@ -48,8 +48,17 @@
           dark:bg-gray-800 dark:border-gray-600
         "
       >
-        Employees
-      </a>
+        Employees <span v-show="employees.length"> ({{ employees.length }})</span>
+      </a>        
+
+        <div v-show="!employees.length"> 
+            <center>
+                <img class="h-20"
+                src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"
+                />  
+            </center> 
+        </div>
+
 
       <div
         v-for="user in employees"
@@ -99,58 +108,8 @@
         </div>
       </div>
     </div>
-
-    <div class="mx-auto max-w-lg">
-      <div role="status" class="my-7 animate-pulse">
-        <div
-          class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-48 mb-4"
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[460px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[500px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[450px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="
-            h-2
-            bg-gray-200
-            rounded-full
-            dark:bg-gray-700
-            max-w-[380px]
-            mb-2.5
-          "
-        ></div>
-        <div
-          class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px]"
-        ></div>
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
+    
+    <div class="mb-20"></div>
   </div>
 </template>
 
