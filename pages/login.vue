@@ -4,7 +4,7 @@
 
     <div class="lg:flex items-center gap-2 w-full mt-14 mx-auto lg:w-1/2">
       <center class="py-5 p-2 lg:w-1/2">
-        <Logo class="py-2 hidden" />
+        <Logo class="py-2" />
       </center>
 
       <div class="px-8 py-3 bg-white rounded-xl lg:w-1/2">

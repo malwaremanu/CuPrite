@@ -5,7 +5,7 @@
         We are loading the purchase order 
         <center>
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif?20170503175831"
+          src="~/assets/Loading_2.gif"
         />  
         </center>        
       </div>
@@ -23,7 +23,7 @@
       <div>
         <img
           class="w-full mb-4"
-          src="https://www.suryamines.com/erp/snips/invoice_files/header.png"
+          src="~/assets/header.png"
           alt=""
         />
       </div>
@@ -180,14 +180,14 @@
       <img
         v-show="this.data[0].FROM == 'SEMHKAT'"
         class="w-full absolute bottom-0"
-        src="http://www.suryamines.com/erp/snips/invoice_files/footerSemhkat.png"
+        src="~/assets/footerSemhkat.png"
         alt=""
       />
 
       <img
         v-show="this.data[0].FROM == 'SURYAMINES'"
         class="w-full absolute bottom-0"
-        src="http://www.suryamines.com/erp/snips/invoice_files/footerSuryamines.png"
+        src="~/assets/footerSuryamines.png"
         alt=""
       />
     </div>
