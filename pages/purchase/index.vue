@@ -1,5 +1,6 @@
 <template>
   <div class="bg-gray-900 min-h-screen">
+    <Bottombar />    
     <div v-show="order_d">
       <div class="text-xl flex items-center text-white gap-2 p-2">
         <nuxt-link class="p-1" to="/dashboard">
@@ -476,6 +477,7 @@
 <script>
 import Isloading from '../../components/isloading.vue'
 import { EyeIcon } from '@vue-hero-icons/outline'
+import Bottombar from '~/components/bottombar.vue'
 
 export default {
   data() {
@@ -610,7 +612,7 @@ export default {
       console.log(x)
     },
   },
-  components: { Isloading, EyeIcon },
+  components: { Isloading, EyeIcon, Bottombar },
 }
 </script>
 

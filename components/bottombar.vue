@@ -1,109 +1,164 @@
 <template>
-  <nav class="rounded-t-3xl px-2 sm:px-4 py-2.5 dark:bg-gray-800 fixed z-20 w-full md:w-96 bottom-0 inset-x-0 mx-auto border border-white/20 border-b-0">
-    <div class="flex justify-between items-center px-6 py-2 text-white gap-3">
-      <nuxt-link to="/dashboard">
-      <button class="btn_nav">
-        <center>
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+  <div>
+    <nav
+      class="
+        bg-white
+        px-2
+        sm:px-4
+        py-2.5
+        dark:bg-gray-900
+        fixed
+        w-full
+        z-20
+        top-0
+        left-0
+        border-b border-gray-200
+        dark:border-gray-600
+      "
+    >
+      <div
+        class="container flex flex-wrap justify-between items-center mx-auto"
+      >
+        <div class="flex items-center">
+          <Small-logo />
+        </div>
+        <div class="flex md:order-2">
+          <nuxt-link
+            to="/login"
+            class="
+              text-white
+              bg-primary-700
+              hover:bg-primary-800
+              focus:ring-4 focus:outline-none focus:ring-primary-300
+              rounded-lg
+              text-sm
+              px-5
+              py-2.5
+              text-center
+              mr-3
+              md:mr-0
+              dark:bg-primary-600
+              dark:hover:bg-primary-700
+              dark:focus:ring-primary-800
+              flex items-center font-semibold gap-2
+            "
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-            />
-          </svg>
-        </center>
-        <div>Home</div>
-      </button>
-      </nuxt-link>
-
-      <nuxt-link to="/users">
-        <button class="btn_nav">
-          <center>
             <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5"
             >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
               />
             </svg>
-          </center>
-          <div>Users</div>
-        </button>
-      </nuxt-link>
 
-      <nuxt-link to="/chat">
-        <button class="btn_nav">
-          <center>
+            Logout
+          </nuxt-link>
+
+          <button
+            @click="show_bar = !show_bar"
+            type="button"
+            class="
+              inline-flex
+              items-center
+              p-2
+              text-sm text-gray-500
+              rounded-lg
+              md:hidden
+              hover:bg-gray-100
+              focus:outline-none focus:ring-2 focus:ring-gray-200
+              dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600
+            "
+          >
+            <span class="sr-only">Open main menu</span>
             <svg
               class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-              />
+                fill-rule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              ></path>
             </svg>
-          </center>
-          <div>Chat</div>
-        </button>
-      </nuxt-link>
+          </button>
+        </div>
+        <div
+          class="
+            justify-between
+            items-center
+            w-full
+            md:flex md:w-auto md:order-1
+          "
+          :class="show_bar ? '' : 'hidden'"
+          id="navbar-sticky"
+        >
+          <ul
+            class="
+              flex flex-col
+              p-4
+              mt-4
+              bg-gray-50
+              rounded-lg
+              border border-gray-100
+              md:flex-row
+              md:space-x-8
+              md:mt-0
+              md:text-sm
+              md:font-medium
+              md:border-0
+              md:bg-white
+              dark:bg-gray-800
+              md:dark:bg-gray-900
+              dark:border-gray-700
+            "
+          >
+            <li>
+              <nuxt-link to="/purchase" class="link">
+                Purchase Order
+              </nuxt-link>
+            </li>
 
-      <nuxt-link to="/settings">
-        <button class="btn_nav">
-          <center>
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-          </center>
-          <div>Settings</div>
-        </button>
-      </nuxt-link>
-    </div>
-  </nav>
+            <li>
+              <nuxt-link to="/emps/passports" class="link">
+                Passports
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="mt-[70px]"></div>
+  </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      show_bar: false,
+    }
+  },
+}
+</script>
 <style lang="postcss" scoped>
-  .btn_nav {
-    @apply text-white hover:text-gray-100 rounded-xl text-center;
-  }
+.btn_nav {
+  @apply text-white hover:text-gray-100 rounded-xl text-center;
+}
 
-  .btn_nav div {
-    @apply mt-1 text-xs;
-  }
+.btn_nav div {
+  @apply mt-1 text-xs;
+}
+
+.link {
+  @apply block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700;
+}
 </style>
