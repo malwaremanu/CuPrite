@@ -1,20 +1,21 @@
 <template>
-  <div class="p-2 min-h-screen bg-gray-900 mx-auto">
-    <div class="lg:flex items-center gap-2 w-full mx-auto">
-      <center class="py-5 mt-14 lg:w-1/2">
-        <Logo />
+  <div class="min-h-screen grid grid-cols-2">
+    <div class="h-screen grid content-center ">
+      <center class="border">
+        <img src="~/assets/cuprite.png" class="h-28 py-3 hidden" />
       </center>
-      <div class="lg:w-1/2">
-        <center class="p-2 flex flex-col gap-4 lg:w-1/2 mx-auto">
-          <nuxt-link to="/login">
-            <Buttonsecondary title="Login" />
-          </nuxt-link>
-          <nuxt-link to="/register">
-            <Buttonsecondary title="Register" />
-          </nuxt-link>
-        </center>
-      </div>
     </div>
+
+    <div class="bg-gray-900 grid gap-4 content-center p-6">      
+      <nuxt-link to="/login">
+        <Buttonsecondary title="Login" />
+      </nuxt-link>
+
+      <nuxt-link to="/register">
+        <Buttonsecondary title="Register" />
+      </nuxt-link>
+    </div>
+
     <Footer />
   </div>
 </template>
