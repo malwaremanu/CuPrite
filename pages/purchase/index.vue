@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-gray-900 min-h-screen">
+  <div class="dark:bg-gray-900 bg-gray-50 min-h-screen">
     <Bottombar />
 
     <div class="flex">
       <Sidebar />
-      
-      <div class="w-full">
-        <div class="w-full" v-show="order_d">          
+
+      <div class="w-full my-10">
+        <div class="w-full" v-show="order_d">
           <div class="
               overflow-x-auto
               relative
@@ -28,11 +28,11 @@
                   <th scope="col" class="py-3 px-6">SUPPLIER</th>
                   <th scope="col" class="py-3 px-6">PO DATE</th>
                   <th scope="col" class="py-3 px-6">PRICE</th>
-                  <th scope="col" class="py-3 px-6 hidden">ACTION</th>
+                  <th scope="col" class="py-3 px-6">ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="order in orders" :key="order.id" @click="select_order(order)" class="
+                <tr v-for="order in orders" :key="order.id" aatclick="select_order(order)" class="
                     cursor-pointer
                     hover:bg-gray-200
                     dark:hover:bg-gray-600
@@ -49,44 +49,31 @@
                         text-gray-900
                         whitespace-nowrap
                         dark:text-white
-                      ">
+                      " @click="$router.push('purchase/' + order.PO_NUMBER.split('/')[1])">
                       {{ order.PO_NUMBER }}
                     </div>
                   </th>
                   <td class="py-4 px-6 text-xs">{{ order.SUPPLIER }}</td>
                   <td class="py-4 px-6 text-xs">{{ order.PO_DATE }}</td>
-                  <td class="py-4 px-6">${{ order.GROSS_AMOUNT }}</td>
-                  <td class="py-4 px-6 hidden">
-                    <div @click="select_order(order)" class="
-                        flex
-                        items-center
-                        gap-2
-                        border border-gray-500
-                        hover:border-gray-50 hover:text-gray-50
-                        px-3
-                        py-2
-                        text-xs text-white
-                        rounded-full
-                        cursor-pointer
-                      ">
-                      <!-- <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"
-                    />
-                  </svg> -->
+                  <td class="py-4 px-6">
+                    
+                    <span v-show="order.GROSS_AMOUNT"> ${{ order.GROSS_AMOUNT }} </span>
+                    </td>
+                  <td class="py-4 px-6">
+                    <div class="flex items-center gap-2">
+                      <div @click="$router.push('purchase/' + order.PO_NUMBER.split('/')[1])" class="button">
+                        <EyeIcon />
+                        View
+                      </div>
 
-                      <EyeIcon />
-                      View
+                      <div class="button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        Print
+                      </div>
+
                     </div>
+
+
                   </td>
                 </tr>
               </tbody>
@@ -97,7 +84,7 @@
         <div class="w-full" v-show="!order_d">
           <div>
             <div class="text-xl flex items-center justify-between gap-2 p-2">
-              <div class="flex items-center gap-2 text-white">
+              <div class="flex items-center gap-2 dark:text-white">
                 <div class="p-1 cursor-pointer" @click="hide_order">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -426,9 +413,33 @@ export default {
   },
   mounted() {
     console.log(`the component is now mounted.`)
-    this.fetch_data()
+    this.get_data()
+    window.scrollTo(0, 0)
   },
   methods: {
+    get_data() {
+      let self = this
+      self.orders = [{
+        PARTY: 'Loading...'
+      }]
+      // console.log('url is' + url)
+      const axios = require('axios').default
+      axios
+        .post(self.$store.state.api_url, {
+          data: self.$en({
+            operation: 'sql',
+            sql: 'select * from po.first'
+          })
+        })
+        .then(function (response) {
+          console.log('this is party data', self.$de(response.data.data))
+          self.orders = self.$de(response.data.data)
+          self.is_loading_orders = false
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     print_it(x) {
       console.log(x)
       var y = x.slice(3)
@@ -436,30 +447,33 @@ export default {
       // this.$router.push()
     },
     fetch_data() {
-      // const self = this
-      this.is_loading_orders = true
-      var self = this
-      var myHeaders = new Headers()
-      myHeaders.append('Content-Type', 'application/json')
-      myHeaders.append(
-        'Authorization',
-        'Bearer ' + sessionStorage.getItem('operation_token')
-      )
-      var raw = JSON.stringify({
-        operation: 'sql',
-        sql: 'select * from po.first',
-      })
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow',
-      }
-      fetch(self.$store.state.api_url, requestOptions)
-        .then((response) => response.text())
-        .then((result) => (self.orders = JSON.parse(result)))
-        .catch((error) => console.log('error', error))
-      self.is_loading_orders = false
+      // // const self = this
+      // this.is_loading_orders = true
+      // var self = this
+      // var myHeaders = new Headers()
+      // myHeaders.append('Content-Type', 'application/json')
+      // myHeaders.append(
+      //   'Authorization',
+      //   'Bearer ' + sessionStorage.getItem('operation_token')
+      // )
+      // var raw = {
+      //   operation: 'sql',
+      //   sql: 'select * from po.first',
+      // }
+      // var requestOptions = {
+      //   method: 'POST',
+      //   headers: myHeaders,
+      //   body: JSON.stringify({ data : self.$en(raw) }),
+      //   redirect: 'follow',
+      // }
+      // fetch(self.$store.state.api_url, requestOptions)
+      //   .then((response) => response.text())
+      //   .then((result) => (
+      //     console.log(self.$de(result)))
+      //     // self.orders = self.$de(result))
+      //     )
+      //   .catch((error) => console.log('error', error))
+      // self.is_loading_orders = false
     },
     select_order(x) {
       this.show_po = x
@@ -533,8 +547,6 @@ export default {
   components: { Isloading, EyeIcon, Bottombar, Sidebar },
 }
 </script>
-
-<style lang="postcss" scoped>
 /* width */
 ::-webkit-scrollbar {
   width: 2px;

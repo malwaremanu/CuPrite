@@ -133,6 +133,14 @@
                 Passports
               </nuxt-link>
             </li>
+
+
+            <li>
+              <nuxt-link to="/masters" class="link">
+                Masters
+              </nuxt-link>
+            </li>
+
           </ul>
         </div>
       </div>

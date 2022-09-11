@@ -229,7 +229,15 @@ export default {
   },
   methods: {
     walert() {
-      alert('We will work on it later on.')
+      // alert('We will work on it later on.')
+      console.log(this.$en('Hellow this is manu'))
+      var r = {
+  "status": "success",
+  "data": "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"
+}
+      console.log(r.data)
+      console.log(this.$de(r.data))
+
     },
     login_old() {
       let self = this
@@ -263,36 +271,31 @@ export default {
       let self = this
       self.login_btn = 'Logging in...'
       axios
-        .post(self.$store.state.api_url, {
-          operation: 'create_authentication_tokens',
-          username: this.username,
-          password: this.password,
+        .post(self.$store.state.api_url, 
+        { data : this.$en({
+            operation: 'create_authentication_tokens',
+            username: this.username,
+            password: this.password,
+          })
         })
-        .then(function (response) {
-          console.log('this is response', response.data.msg)
+        .then(function (response) {          
+          console.log(response.status)    
+          console.log("this is now decoded : ", self.$de(response.data.data))
+          
           if (response.status == 200) {
-            self.login_btn = 'Login Succesfull'
-            // document.cookie = "operation_token=" + response.data.operation_token;
-            // localStorage.setItem("operation_token", response.data.operation_token);
-            sessionStorage.setItem(
-              'operation_token',
-              response.data.operation_token
-            )
-            sessionStorage.setItem('refresh_token', response.data.refresh_token)
-            // localStorage.setItem("refresh_token", response.data.refresh_token)
-            // document.cookie = "refresh_token=" + response.data.refresh_token;
-            self.$router.push('/dashboard')
+              self.login_btn = 'Login Succesfull'                        
+              sessionStorage.setItem('operation_token', self.$de(response.data.data).operation_token)
+              sessionStorage.setItem('refresh_token', self.$de(response.data.data).refresh_token)            
+              self.$router.push('/dashboard')
           }
           if (response.status == 401) {
-            alert('Error : Please try again.')
+              alert('Error : Please try again.')
           }
         })
         .catch(function (error) {
-          alert(error.response.data.error)
-          // document.cookie = "operation_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          alert('Login Failed.')
           sessionStorage.removeItem('operation_token')
-          sessionStorage.removeItem('refresh_token')
-          // document.cookie = "refresh_token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          sessionStorage.removeItem('refresh_token')          
           self.login_btn = 'Login'
         })
     },

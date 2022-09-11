@@ -2,7 +2,7 @@
   <div>
     <div v-show="!loaded">
       <div v-show="!error" class="uppercase font-semibold text-center mx-auto mt-10">
-        We are loading the purchase order 
+        Please Wait. We are loading the purchase order 
         <center>
         <img
           src="~/assets/Loading_2.gif"

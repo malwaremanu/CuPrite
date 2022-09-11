@@ -5,6 +5,7 @@ export default {
     base_url: process.env.base_url,
     dev_url : process.env.dev_url
   },
+  ssr: false,
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
@@ -32,7 +33,7 @@ export default {
   css: ['~/assets/main.css', '@/assets/css/main.css',],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/en.js', '~/plugins/de.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
