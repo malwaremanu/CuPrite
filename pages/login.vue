@@ -283,10 +283,15 @@ export default {
           console.log("this is now decoded : ", self.$de(response.data.data))
           
           if (response.status == 200) {
-              self.login_btn = 'Login Succesfull'                        
+            if(self.$de(response.data.data).error){
+              self.login_btn = 'Login Failed'
+            }
+            else{
+              self.login_btn = 'Login Succesfull'
               sessionStorage.setItem('operation_token', self.$de(response.data.data).operation_token)
               sessionStorage.setItem('refresh_token', self.$de(response.data.data).refresh_token)            
               self.$router.push('/dashboard')
+            } 
           }
           if (response.status == 401) {
               alert('Error : Please try again.')
