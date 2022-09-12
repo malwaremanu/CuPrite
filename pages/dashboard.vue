@@ -104,12 +104,8 @@ export default {
       //console.log(this)
     },
     async fetch_me(){
-      this.user_me = await api({
-        "operation": "user_info",
-      })
-      sessionStorage.setItem("my_id",this.user_me.role.id)      
+      console.clear()
     }
-
     
   },
   components: { Bottombar },

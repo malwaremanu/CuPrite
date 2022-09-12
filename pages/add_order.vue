@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div class="text-primary-600 dark:text-primary-600 dark:bg-gray-800 p-4 min-h-screen">
+        <div class="text-primary-600 dark:text-primary-600 dark:bg-gray-800 px-4 min-h-screen">
             <div class="overflow-x-auto ">
                 <div class="hidden">
                     {{ parties }}
@@ -25,75 +25,88 @@
                 <div v-show="loading">
 
 
-                    Please wait. We are loading data.
-
-
-                    <div role="status" class="max-w-sm animate-pulse">
-                        <div class="p-4">
-                            <label class="">
-                                <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-                            </label>
-                            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-                        </div>
-
-                        <span class="sr-only">Loading...</span>
-                    </div>
+                    <Isloading />
 
                 </div>
 
                 <div v-show="!loading">
                     <div v-show="stage == 1">
-                        <div class="p-4">
-                            <label>PO Date </label>
-                            <input type="date" v-model="data.date" />
+
+                        <div class="grid-2">
+                            <div>
+                                <label>PO Date </label>
+                                <input type="date" v-model="data.date" />
+                            </div>
+
+                            <div>
+                                <label>PO Number (Auto) </label>
+                                <input type="text" v-model="data.id" readonly />
+                            </div>
+
                         </div>
 
-                        <div class="p-4">
-                            <label>Quote / Reference </label>
-                            <input type="text" v-model="data.ref" />
+                        <div class="grid-2">
+                            <div>
+                                <label>Quote / Reference quote_ref </label>
+                                <input type="text" v-model="data.quote_ref" />
+                            </div>
+
+                            <div>
+                                <label>Quote / Reference Date </label>
+                                <input type="date" v-model="data.quote_ref_date" />
+                            </div>
                         </div>
 
-                        <div class="p-4">
-                            <label>From </label>
-                            <select v-model="data.c">
-                                <option v-for="c in companies" :key="c.id" :value="c.id">
-                                    {{ c.name }}
-                                </option>
-                            </select>
+                        <div class="grid-2">
+                            <div>
+                                <label>From </label>
+                                <select v-model="data.c">
+                                    <option v-for="c in companies" :key="c.id" :value="c.id">
+                                        {{ c.name }}
+                                    </option>
+                                </select>
 
-                            <div class="hidden">
-                                {{ companies }}
+                                <div class="hidden">
+                                    {{ companies }}
+                                </div>
+                            </div>
+                            <div>
+                                <label>Choose Party </label>
+                                <select v-model="data.p">
+                                    <option v-for="c in parties" :key="c.id" :value="c.id">
+                                        {{ c.PARTY }}
+                                    </option>
+                                </select>
+                                <div class="hidden">
+                                    {{ parties }}
+                                </div>
                             </div>
                         </div>
-                        <div class="p-4">
-                            <label>Choose Party </label>
-                            <select v-model="data.p">
-                                <option v-for="c in parties" :key="c.id" :value="c.id">
-                                    {{ c.PARTY }}
-                                </option>
-                            </select>
-                            <div class="hidden">
-                                {{ parties }}
+
+                        <div class="grid-2">
+                            <div>
+                                <label>TVA Rates</label>
+                                <select v-model="data.tva">
+                                    <option v-for="c in tva_rates" :key="c.id" :value="c.rate">
+                                        {{ c.rate }}
+                                    </option>
+                                </select>
+                                <div class="hidden">
+                                    {{ tva_rates }}
+                                </div>
+                            </div>
+                            <div>
+                                <label>Flat Discount or Remise ({{ data.discount }}%) </label>
+                                <input type="number" v-model="data.discount" />
                             </div>
                         </div>
-                        <div class="p-4">
-                            <label>TVA Rates</label>
-                            <select v-model="data.tva">
-                                <option v-for="c in tva_rates" :key="c.id" :value="c.rate">
-                                    {{ c.rate }}
-                                </option>
-                            </select>
-                            <div class="hidden">
-                                {{ tva_rates }}
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <label>Flat Discount or Remise ({{ data.discount }}%) </label>
-                            <input type="number" v-model="data.discount" />
-                        </div>
+
+
                     </div>
 
                     <div v-show="stage == 2">
+
+
 
                         <div class="overflow-x-auto relative">
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -104,7 +117,7 @@
                                             Part Number
                                         </th>
                                         <th scope="col" class="py-3 px-6">
-                                            Description 
+                                            Description
                                         </th>
                                         <th scope="col" class="py-3 px-6">
                                             QTY
@@ -115,45 +128,89 @@
                                         <th scope="col" class="py-3 px-6">
                                             Net Amount
                                         </th>
+                                        <th scope="col" class="py-3 px-6">
+                                            Action
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <tr v-for="(p,key) in sample_products" :key="p.id"
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row"
                                             class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             <input type="text">
+
+                                            <span class="text-xs hidden" v-text="uuidv4()"></span>
                                         </th>
                                         <td class="py-4 px-6">
-                                            <input type="text">
+                                            <input type="textarea">
                                         </td>
                                         <td class="py-4 px-6">
-                                            <input type="number"> <br>
-                                            <select >
-                                                <option value="KG">KG</option>
-                                                <option value="NOS">NOS</option>
-                                                <option value="LITRES">LITRES</option>
-                                                <option value="CAN">CAN</option>
-                                                <option value="OTHER">OTHER</option>                                                
+                                            <input type="number"
+                                                @change="p.total_amount = parseInt(p.base_price) * parseInt(p.qty)"
+                                                v-model="p.qty"> <br>
+                                            <select v-model="p.unit">
+                                                <option value="Kg">Kg</option>
+                                                <option value="Nos">Nos</option>
+                                                <option value="Litres">Litres</option>
+                                                <option value="Barrel">Barrel</option>
+                                                <option value="Can">Can</option>
+                                                <option value="OTHER">OTHER</option>
                                             </select>
                                         </td>
                                         <td class="py-4 px-6">
-                                            <input type="number">
+                                            <input type="number"
+                                                @change="p.total_amount = parseInt(p.base_price) * parseInt(p.qty)"
+                                                v-model="p.base_price">
                                         </td>
                                         <td class="py-4 px-6">
-                                            <input type="number" value="">
+                                            <span class="text-lg text-primary-700 dark:text-gray-50"
+                                                v-text="p.base_price * p.qty"></span>
                                         </td>
-                                    </tr>                                    
+                                        <td class="py-4 px-6">
+                                            <div v-show="sample_products.length-1 == key"
+                                                class="py-4 px-6 flex flex-col items-center gap-2">
+                                                <button class="small-button" @click="add_new_product">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                    </svg> Add
+                                                </button>
+                                                <button v-show="key != 0" class="small-button" @click="delete_product">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg> Remove </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 p-3">
+                                        <td> Products : {{ sample_products.length }} </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div>
+                                               {{ sample_products.reduce((a, b) => a.total_amount + b.total_amount, 0) }}
+                                            </div>
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
-
-
 
                     <div class="p-4 flex items-center gap-2">
                         <button @click="add(data)" class="button"> {{ create }} </button>
-                        <button class="button"> Deactivate </button>
+                        <button class="button" @click="test_console(sample_products)"> Post to console </button>
+
+                        <button class="button">
+                            Calculate All
+                        </button>
                     </div>
                 </div>
 
@@ -166,6 +223,7 @@
 </template>
     
 <script>
+import Isloading from '~/components/isloading.vue'
 var url = process.env.base_url
 const axios = require('axios').default
 
@@ -173,36 +231,98 @@ export default {
     data() {
         return {
             loading: false,
-            stage: 1,
-            add_party_modal: false,
-            password: '',
-            edit_create: '',
-            addt: 'add',
+            stage: 2,
+            sample_products: [{
+                id: this.uuidv4(),
+                qty: '4',
+                base_price: '6',
+            }],
+
+            addt: "add",
             parties: {},
             companies: {},
             tva_rates: {},
             data: {},
-            create: 'Create',
-        }
+            create: "Add Products Now",
+            ref_data: {
+                id: 100,
+                date: '',
+                discount: '',
+                from: 'suryamines',
+                gross_total: '',
+                party: null,
+                quote_ref: '',
+                quote_ref_date: '',
+                remark: '',
+                total_amount: '',
+                tva_amount: '',
+                tva_rate: '',
+                type: 'purchase',
+                __createdtime__: 1662989993547,
+                __updatedtime__: 1662990610895
+            },
+            
+        };
     },
     mounted: function () {
-        this.get_data() //method1 will execute at pageload
+        // this.get_data(); //method1 will execute at pageload
+    },
+    computed : {
+        calculate_it() {            
+            var a = 0
+            for (var p in this.sample_products) {
+                a += parseInt(this.sample_products[p].total_amount)
+            }
+            return a
+        },
     },
     methods: {
-        cons(x) {
+        test_console(x) {
+            console.clear()
             console.log(x)
         },
 
+        calculate_it() {            
+            var a = 0
+            for (var p in this.sample_products) {
+                a += this.sample_products[p].total_amount
+            }
+            return a
+        },
+
+        
+        uuidv4() {
+            const d = new Date();
+            var aa = d.getDay() + "" + d.getMonth() + "" + d.getFullYear() + '' + d.getSeconds() + "" + d.getMilliseconds();
+
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11 + aa).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(20)
+            );
+        },
+        add_new_product() {
+            console.log('adding new')
+            this.sample_products.push({
+                id: this.uuidv4(),
+            })
+        },
+
+        delete_product() {
+            this.sample_products.pop()
+        },
+
+        cons(x) {
+            console.log(x);
+        },
         get_data() {
-            let self = this
-            self.loading = true
+            let self = this;
+            self.loading = true;
             axios
                 .get("https://cupritev1.deta.dev/po_create")
                 .then(function (response) {
-                    self.parties = self.$de(response.data.data.parties)
-                    self.companies = self.$de(response.data.data.companies)
-                    self.tva_rates = self.$de(response.data.data.tva_rates)
-                    self.loading = false
+                    self.parties = self.$de(response.data.data.parties);
+                    self.companies = self.$de(response.data.data.companies);
+                    self.tva_rates = self.$de(response.data.data.tva_rates);
+                    self.loading = false;
                     // if (self.$de(response.data.data).length == 0) {
                     //     alert('Please Add Parties/Companies First.')
                     //     self.$router.push('../')
@@ -212,18 +332,17 @@ export default {
                     // }
                     // console.log(self.data)
                     // self.loading = false
-                })
+                });
         },
-
         add(x) {
-            this.create = "Creating..."
-            this.stage = 2
-            console.log(x)
+            this.create = "Create";
+            this.stage = 2;
+            console.log(x);
         },
-
         cons(x) {
-            console.log(x)
+            console.log(x);
         },
     },
+    components: { Isloading }
 }
 </script>

@@ -33,7 +33,11 @@ select {
 }
 
 .button {
-    @apply text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex items-center font-semibold gap-2 ;
+    @apply text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex items-center font-semibold gap-2 ;
+}
+
+.small-button {
+    @apply text-white bg-gray-300 text-gray-600  hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-300 text-sm px-3 py-2 text-center dark:bg-gray-600 dark:text-gray-50 dark:hover:bg-gray-700 dark:focus:ring-gray-800 flex items-center  gap-1 rounded-full;
 }
 
 .button_icon {
@@ -52,7 +56,9 @@ label {
     @apply inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-600 bg-primary-200 rounded-full dark:bg-primary-900 dark:text-primary-200;
 }
 
-
+.grid-2 {
+    @apply grid grid-cols-2 items-center bg-gray-100 dark:bg-gray-900 m-4 rounded-md gap-4 p-5;
+}
 
 #table {
     font-family: Arial, Helvetica, sans-serif;
