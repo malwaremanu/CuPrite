@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-900 select-none">
-    <div class="bg-gray-900 p-2 flex items-center">
-      <button class="p-2 text-white text-center">
+  <div class="min-h-screen bg-white text-primary-800 dark:bg-gray-900 select-none">
+    <div class="p-2 flex items-center">
+      <button class="p-2 text-center">
         <NuxtLink to="/purchase">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -9,12 +9,11 @@
         </NuxtLink>
       </button>
 
-      <div class="text-white p-2">
+      <div class="text-primary-700 bg-white dark:bg-gray-800 p-2">
         <div class="text-lg font-semibold">Masters Page</div>
         <div class="text-xs">Parties Management</div>
       </div>
     </div>
-
     <div class="text-white p-4">
       <div>
         <div class="text-gray-900 md:flex items-center gap-2 m-2">

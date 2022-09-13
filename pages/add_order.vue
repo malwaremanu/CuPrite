@@ -161,9 +161,7 @@
                                                 <option value="OTHER">OTHER</option>
                                             </select>
                                           </div>
-                                          </div>
-                                          
-                                          
+                                          </div>                                                                                    
                                               
                                         </td>
                                         <td class="py-4 px-6">
@@ -185,7 +183,7 @@
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                    </svg> Add More
+                                                    </svg> Add
                                                 </button>
                                                 <button v-show="key != 0" class="small-button" @click="delete_product">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -225,8 +223,8 @@
                         <button @click="add(data)" class="button"> {{ create }} </button>
                         <button class="button" @click="test_console(sample_products)"> Post to console </button>
 
-                        <button class="button">
-                            Calculate All
+                        <button @click="status = 1" class="button">
+                            First Part
                         </button>
                     </div>
                 </div>
@@ -245,7 +243,7 @@ export default {
     data() {
         return {
             loading: false,
-            stage: 2,
+            stage: 1,
             sample_products: [{
                 id: this.uuidv4(),
                 qty: '4',
