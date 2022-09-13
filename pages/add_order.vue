@@ -10,7 +10,7 @@
                 </NuxtLink>
             </button>
 
-            <div class="text-primary-600 p-2 text-primary-600 dark:text-primary-600 dark:bg-gray-800">
+            <div class="text-primary-600 p-2 dark:text-primary-600 dark:bg-gray-800">
                 <div class="text-lg font-semibold">Purchase Order</div>
                 <div class="text-xs">Add New </div>
             </div>
@@ -177,7 +177,7 @@
                                         </td>
                                         <td class="py-4 px-6 w-30">
                                             <div v-show="sample_products.length-1 == key"
-                                                class="flex flex-col">
+                                                class="flex items-center gap-2">
                                                 <button class="small-button" @click="add_new_product" v-show="(p.total_amount != NaN) && (p.total_amount >= 1) && (p.desc)">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
