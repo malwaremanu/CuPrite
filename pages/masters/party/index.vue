@@ -9,7 +9,7 @@
         </NuxtLink>
       </button>
 
-      <div class="text-primary-700 bg-white dark:bg-gray-800 p-2">
+      <div class="text-primary-700 p-2">
         <div class="text-lg font-semibold">Masters Page</div>
         <div class="text-xs">Parties Management</div>
       </div>
@@ -17,7 +17,7 @@
     <div class="text-white p-4">
       <div>
         <div class="text-gray-900 md:flex items-center gap-2 m-2">
-          <button class="px-4 py-2 flex items-center bg-white rounded-full text-gray-900 m-1 gap-1" @click="get_data">
+          <button class="button" @click="get_data">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,7 +27,7 @@
           </button>
 
           <button @click="party_popup('show', 'Create')"
-            class="px-4 py-2 flex items-center bg-white rounded-full text-gray-900 m-1 gap-1">
+            class="button">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -134,51 +134,30 @@
 
 
       <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table>
+          <thead>
             <tr>
-              <th scope="col" class="py-3 px-6">
-                PARTY & STATUS
-              </th>
-              <th scope="col" class="py-3 px-6">
-                EMAIL
-              </th>
-              <th scope="col" class="py-3 px-6">
-                ADDRESS_1
-              </th>
-              <th scope="col" class="py-3 px-6">
-                ADDRESS_2
-              </th>
-              <th scope="col" class="py-3 px-6">
-                __createdtime__ <br />
-                __updatedtime__
-              </th>
-              <th scope="col" class="py-3 px-6">
-                Action
-              </th>
+              <th> PARTY & STATUS </th>
+              <th> EMAIL </th>
+              <th> ADDRESS_1 </th>
+              <th> ADDRESS_2 </th>
+              <th> __createdtime__ <br /> __updatedtime__ </th>
+              <th> Action </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="p in parties" :key="p.id"
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {{ p.PARTY }} <br>
-                {{ p.STATUS }}
-              </th>
-              <td class="py-4 px-6">
-                {{ p.EMAIL }}
+            <tr v-for="p in parties" :key="p.id">
+              <td scope="row" class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <div> {{ p.PARTY }} </div>
+                <div :class="p.STATUS == 'ACTIVE' ? 'text-green-500 text-xs' : 'text-red-500 text-xs'"> 
+                  {{ p.STATUS }} 
+                </div>                                                
               </td>
-              <td class="py-4 px-6">
-                {{ p.ADDRESS_1 }}
-              </td>
-              <td class="py-4 px-6">
-                {{ p.ADDRESS_2 }}
-              </td>
-              <td class="py-4 px-6">
-                {{ p.__createdtime__ }} <br />
-                {{ p.__updatedtime__ }}
-              </td>
-              <td class="py-4 px-6 space-x-3">
+              <td> {{ p.EMAIL }} </td>
+              <td> {{ p.ADDRESS_1 }} </td>
+              <td> {{ p.ADDRESS_2 }} </td>
+              <td> {{ p.__createdtime__ }} <br /> {{ p.__updatedtime__ }} </td>
+              <td>
                 <div class="flex items-center gap-2 " v-show="p.id">
                   <nuxt-link :to="'party/' + p.id"><button class="button"> Edit </button></nuxt-link>
                   <button class="button"> Deactivate </button>
@@ -415,8 +394,7 @@ export default {
         .then(function (response) {
           console.log('this is party data', self.$de(response.data.data))
           self.parties = self.$de(response.data.data)
-          console.log(self.parties)
-          this.$mdtoast('This is a toast message!')
+          console.log(self.parties)          
         })
         .catch(function (error) {
           console.log(error)
@@ -515,71 +493,3 @@ export default {
   },
 }
 </script>
-
-<style lang="postcss" scoped>
-/* width */
-::-webkit-scrollbar {
-  width: 2px;
-  height: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 1px grey;
-  border-radius: 2px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: gray;
-  border-radius: 2px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #c9c9c9;
-}
-
-input,
-textarea,
-select {
-  @apply px-4 py-2 border text-gray-50 bg-gray-700 rounded-md w-full;
-}
-
-/* 
-table th {
-  @apply text-white text-lg p-2 border;
-}
-
-table td {
-  @apply text-gray-200 text-xs py-1 border p-2;
-}
-
-table {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-table td,
-table th {
-  border: 1px solid rgb(138, 138, 138);
-  padding: 10px;
-}
-
-table tr:nth-child(even) {
-  background-color: #0c0c0c;
-}
-
-table tr:hover {
-  background-color: #080808;
-}
-
-table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #000000;
-  color: white;
-} */
-</style>
