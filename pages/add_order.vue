@@ -23,15 +23,11 @@
                 </div>
 
                 <div v-show="loading">
-
-
                     <Isloading />
-
                 </div>
 
                 <div v-show="!loading">
                     <div v-show="stage == 1">
-
                         <div class="grid-2">
                             <div>
                                 <label>PO Date </label>
@@ -146,8 +142,9 @@
                                             <input type="textarea">
                                         </td>
                                         <td class="py-4 px-6">
-                                            <input type="number"
-                                                @change="p.total_amount = parseInt(p.base_price) * parseInt(p.qty)"
+                                            <input type="text"
+                                                @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
+                                                @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
                                                 v-model="p.qty"> <br>
                                             <select v-model="p.unit">
                                                 <option value="Kg">Kg</option>
@@ -159,18 +156,19 @@
                                             </select>
                                         </td>
                                         <td class="py-4 px-6">
-                                            <input type="number"
-                                                @change="p.total_amount = parseInt(p.base_price) * parseInt(p.qty)"
+                                            <input type="text"
+                                                @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
+                                                @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
                                                 v-model="p.base_price">
                                         </td>
                                         <td class="py-4 px-6">
                                             <span class="text-lg text-primary-700 dark:text-gray-50"
-                                                v-text="p.base_price * p.qty"></span>
+                                                v-text="p.total_amount"></span>
                                         </td>
                                         <td class="py-4 px-6">
                                             <div v-show="sample_products.length-1 == key"
                                                 class="py-4 px-6 flex flex-col items-center gap-2">
-                                                <button class="small-button" @click="add_new_product">
+                                                <button class="small-button" @click="add_new_product" v-show="p.total_amount != NaN">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -193,14 +191,16 @@
                                         <td></td>
                                         <td></td>
                                         <td>
-                                            <div>
-                                               {{ sample_products.reduce((a, b) => a.total_amount + b.total_amount, 0) }}
-                                            </div>
+                                            
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
+                            
+                            <div>
+                              {{ sample_products.reduce((a,b) => (parseFloat(a.total_amount) + parseFloat(b.total_amount))).toFixed(3) }}
+                            </div>
+                                        
                         </div>
                     </div>
 
@@ -213,11 +213,8 @@
                         </button>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
         <Footer />
     </div>
 </template>
@@ -236,6 +233,7 @@ export default {
                 id: this.uuidv4(),
                 qty: '4',
                 base_price: '6',
+                total_amount: 24.000,
             }],
 
             addt: "add",
@@ -267,29 +265,11 @@ export default {
     mounted: function () {
         // this.get_data(); //method1 will execute at pageload
     },
-    computed : {
-        calculate_it() {            
-            var a = 0
-            for (var p in this.sample_products) {
-                a += parseInt(this.sample_products[p].total_amount)
-            }
-            return a
-        },
-    },
     methods: {
         test_console(x) {
             console.clear()
             console.log(x)
         },
-
-        calculate_it() {            
-            var a = 0
-            for (var p in this.sample_products) {
-                a += this.sample_products[p].total_amount
-            }
-            return a
-        },
-
         
         uuidv4() {
             const d = new Date();
@@ -303,6 +283,7 @@ export default {
             console.log('adding new')
             this.sample_products.push({
                 id: this.uuidv4(),
+                total_amount: 0,
             })
         },
 
