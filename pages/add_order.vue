@@ -101,9 +101,6 @@
                     </div>
 
                     <div v-show="stage == 2">
-
-
-
                         <div class="overflow-x-auto relative">
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
@@ -113,13 +110,13 @@
                                             Part Number
                                         </th>
                                         <th scope="col" class="py-3 px-6">
-                                            Description
+                                            Description*
                                         </th>
                                         <th scope="col" class="py-3 px-6">
-                                            QTY
+                                            QTY* & Unit
                                         </th>
                                         <th scope="col" class="py-3 px-6">
-                                            Base Price
+                                            Base Price*
                                         </th>
                                         <th scope="col" class="py-3 px-6">
                                             Net Amount
@@ -139,13 +136,22 @@
                                             <span class="text-xs hidden" v-text="uuidv4()"></span>
                                         </th>
                                         <td class="py-4 px-6">
-                                            <input type="textarea">
+                                            <input type="textarea" v-model="p.desc">
+                                            <span v-show="!p.desc" class="text-red-700 text-xs"> required </span>
+                                            
                                         </td>
                                         <td class="py-4 px-6">
-                                            <input type="text"
-                                                @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
-                                                @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
-                                                v-model="p.qty"> <br>
+                                          <div class="grid-2"
+                                          > 
+                                            <div> 
+                                            <input type="number" class="appearance-none"    
+                                                @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
+                                                @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
+                                                v-model="p.qty"> 
+                                            <span v-show="!p.qty" class="text-red-700 text-xs"> required </span>                                            
+                                          </div>
+                                                
+                                          <div> 
                                             <select v-model="p.unit">
                                                 <option value="Kg">Kg</option>
                                                 <option value="Nos">Nos</option>
@@ -154,26 +160,32 @@
                                                 <option value="Can">Can</option>
                                                 <option value="OTHER">OTHER</option>
                                             </select>
+                                          </div>
+                                          </div>
+                                          
+                                          
+                                              
                                         </td>
                                         <td class="py-4 px-6">
-                                            <input type="text"
-                                                @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
-                                                @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(3)"
+                                            <input type="number" class="appearance-none"                                            
+                                                @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
+                                                @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
                                                 v-model="p.base_price">
+                                                <span v-show="!p.base_price" class="text-red-700 text-xs"> required </span>
                                         </td>
                                         <td class="py-4 px-6">
                                             <span class="text-lg text-primary-700 dark:text-gray-50"
-                                                v-text="p.total_amount"></span>
+                                                v-text="parseFloat(p.total_amount).toFixed(2)"></span>
                                         </td>
-                                        <td class="py-4 px-6">
+                                        <td class="py-4 px-6 w-30">
                                             <div v-show="sample_products.length-1 == key"
-                                                class="py-4 px-6 flex flex-col items-center gap-2">
-                                                <button class="small-button" @click="add_new_product" v-show="p.total_amount != NaN">
+                                                class="flex flex-col">
+                                                <button class="small-button" @click="add_new_product" v-show="(p.total_amount != NaN) && (p.total_amount >= 1) && (p.desc)">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                    </svg> Add
+                                                    </svg> Add More
                                                 </button>
                                                 <button v-show="key != 0" class="small-button" @click="delete_product">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
@@ -186,19 +198,24 @@
                                     </tr>
 
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 p-3">
-                                        <td> Products : {{ sample_products.length }} </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            
+                                        <td class="py-4 px-6"> Products : {{ sample_products.length }} </td>
+                                        <td class="py-4 px-6"></td>
+                                        <td class="py-4 px-6"></td>
+                                        <td class="py-4 px-6"></td>
+                                        <td class="py-4 px-6 text-2xl text-primary-700 font-semibold">
+                                            <span v-if="sample_products.length == 1"> 
+                                              {{ (parseFloat(sample_products[0].total_amount)).toFixed(2) }}                                               
+                                            </span>
+                                            <span v-if="sample_products.length >= 2"> 
+                                              {{ (sample_products.reduce((a,b) => (parseFloat(a.total_amount) + parseFloat(b.total_amount)))).toFixed(2) }} 
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             
                             <div>
-                              {{ sample_products.reduce((a,b) => (parseFloat(a.total_amount) + parseFloat(b.total_amount))).toFixed(3) }}
+                              {{ sample_products }}                              
                             </div>
                                         
                         </div>
@@ -327,3 +344,17 @@ export default {
     components: { Isloading }
 }
 </script>
+
+<style>
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
