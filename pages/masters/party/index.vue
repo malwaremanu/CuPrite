@@ -14,7 +14,6 @@
         <div class="text-xs">Parties Management</div>
       </div>
     </div>
-
     <div class="text-white p-4">
       <div>
         <div class="text-gray-900 md:flex items-center gap-2 m-2">
