@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label>Flat Discount or Remise ({{ data.discount }}%) </label>
+                                <label>Flat Discount or Remise ({{ data.discount }}) </label>
                                 <input type="number" v-model="data.discount" />
                             </div>
                         </div>
@@ -102,26 +102,25 @@
 
                     <div v-show="stage == 2">
                         <div class="overflow-x-auto relative">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <th scope="col" class="py-3 px-6">
+                                        <th>
                                             Part Number
                                         </th>
-                                        <th scope="col" class="py-3 px-6">
+                                        <th>
                                             Description*
                                         </th>
-                                        <th scope="col" class="py-3 px-6">
+                                        <th>
                                             QTY* & Unit
                                         </th>
-                                        <th scope="col" class="py-3 px-6">
+                                        <th>
                                             Base Price*
                                         </th>
-                                        <th scope="col" class="py-3 px-6">
+                                        <th>
                                             Net Amount
                                         </th>
-                                        <th scope="col" class="py-3 px-6">
+                                        <th>
                                             Action
                                         </th>
                                     </tr>
@@ -131,54 +130,52 @@
                                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row"
                                             class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            <input type="text">
-
+                                            <input type="text" @keyup="$event.target.value = ($event.target.value).toUpperCase()" value="asd" v-model="p.product_number">
                                             <span class="text-xs hidden" v-text="uuidv4()"></span>
                                         </th>
-                                        <td class="py-4 px-6">
-                                            <input type="textarea" v-model="p.desc">
+                                        <td>
+                                            <input type="textarea" @keyup="$event.target.value = ($event.target.value).toUpperCase()"  v-model="p.desc">
                                             <span v-show="!p.desc" class="text-red-700 text-xs"> required </span>
-                                            
                                         </td>
-                                        <td class="py-4 px-6">
-                                          <div class="grid-2"
-                                          > 
-                                            <div> 
-                                            <input type="number" class="appearance-none"    
-                                                @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
-                                                @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
-                                                v-model="p.qty"> 
-                                            <span v-show="!p.qty" class="text-red-700 text-xs"> required </span>                                            
-                                          </div>
-                                                
-                                          <div> 
-                                            <select v-model="p.unit">
-                                                <option value="Kg">Kg</option>
-                                                <option value="Nos">Nos</option>
-                                                <option value="Litres">Litres</option>
-                                                <option value="Barrel">Barrel</option>
-                                                <option value="Can">Can</option>
-                                                <option value="OTHER">OTHER</option>
-                                            </select>
-                                          </div>
-                                          </div>                                                                                    
-                                              
+                                        <td>
+                                            <div class="grid-2">
+                                                <div>
+                                                    <input type="number" class="appearance-none"
+                                                        @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
+                                                        @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
+                                                        v-model="p.qty">
+                                                    <span v-show="!p.qty" class="text-red-700 text-xs"> required </span>
+                                                </div>
+
+                                                <div>
+                                                    <select v-model="p.unit">
+                                                        <option value="Kg">Kg</option>
+                                                        <option value="Nos">Nos</option>
+                                                        <option value="Litres">Litres</option>
+                                                        <option value="Barrel">Barrel</option>
+                                                        <option value="Can">Can</option>
+                                                        <option value="OTHER">OTHER</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                         </td>
-                                        <td class="py-4 px-6">
-                                            <input type="number" class="appearance-none"                                            
+                                        <td>
+                                            <input type="number" class="appearance-none"
                                                 @keyup="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
                                                 @keydown="p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)"
                                                 v-model="p.base_price">
-                                                <span v-show="!p.base_price" class="text-red-700 text-xs"> required </span>
+                                            <span v-show="!p.base_price" class="text-red-700 text-xs"> required </span>
                                         </td>
-                                        <td class="py-4 px-6">
+                                        <td>
                                             <span class="text-lg text-primary-700 dark:text-gray-50"
                                                 v-text="parseFloat(p.total_amount).toFixed(2)"></span>
                                         </td>
-                                        <td class="py-4 px-6 w-30">
+                                        <td>
                                             <div v-show="sample_products.length-1 == key"
                                                 class="flex items-center gap-2">
-                                                <button class="small-button" @click="add_new_product" v-show="(p.total_amount != NaN) && (p.total_amount >= 1) && (p.desc)">
+                                                <button class="small-button" @click="add_new_product"
+                                                    v-show="(p.total_amount != NaN) && (p.total_amount >= 1) && (p.desc)">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -195,27 +192,89 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 p-3">
-                                        <td class="py-4 px-6"> Products : {{ sample_products.length }} </td>
-                                        <td class="py-4 px-6"></td>
-                                        <td class="py-4 px-6"></td>
-                                        <td class="py-4 px-6"></td>
-                                        <td class="py-4 px-6 text-2xl text-primary-700 font-semibold">
-                                            <span v-if="sample_products.length == 1"> 
-                                              {{ (parseFloat(sample_products[0].total_amount)).toFixed(2) }}                                               
+                                    <tr class="p-3 py-5">
+                                        <td class="text-lg py-5"> Product(s) : {{ sample_products.length }} </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td class="text-2xl text-primary-700 font-semibold">
+                                            <span v-if="sample_products.length == 1">
+                                                {{ (parseFloat(sample_products[0].total_amount)).toFixed(2) }}
                                             </span>
-                                            <span v-if="sample_products.length >= 2"> 
-                                              {{ (sample_products.reduce((a,b) => (parseFloat(a.total_amount) + parseFloat(b.total_amount)))).toFixed(2) }} 
+                                            <span v-if="sample_products.length >= 2">
+                                                {{ (sample_products.reduce((a,b) => (parseFloat(a.total_amount) +
+                                                parseFloat(b.total_amount)))).toFixed(2) }}
                                             </span>
                                         </td>
+                                        <td> </td>
+                                    </tr>
+
+
+                                    <tr class="p-3 py-5" v-show="parseFloat(data.tva) > 0">
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td class="text-lg py-5"> TVA {{ data.tva }}% </td>
+                                        <td class="text-xl text-primary-700 font-semibold">
+                                            <span v-if="sample_products.length == 1">
+                                                {{ ((parseFloat(sample_products[0].total_amount)).toFixed(2) *
+                                                    (parseInt(data.tva) == 0 ? 1 : (parseInt(data.tva)/100).toFixed(2))).toFixed(2)
+                                                    }}
+                                            </span>
+                                            <span v-if="sample_products.length >= 2">
+                                                {{ ((sample_products.reduce((a,b) => (parseFloat(a.total_amount) +
+                                                parseFloat(b.total_amount)))).toFixed(2) * 
+                                                (parseInt(data.tva) == 0 ? 1 : (parseInt(data.tva)/100).toFixed(2))).toFixed(2)
+                                                }}
+                                            </span>
+                                        </td>
+                                        <td> </td>
+                                    </tr>
+
+                                    <tr class="p-3 py-5">
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td class="text-lg py-5"> Discount </td>
+                                        <td class="text-xl text-primary-700 font-semibold">
+                                            <span v-if="sample_products.length == 1">
+                                                {{ data.discount }}
+                                            </span>
+                                            <span v-if="sample_products.length >= 2">
+                                                {{ data.discount }}
+                                            </span>
+                                        </td>
+                                        <td> </td>
+                                    </tr>
+
+                                    <tr class="p-3 py-5">
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td class="text-lg py-5"> Gross Amount </td>
+                                        <td class="text-2xl text-primary-700 font-semibold">
+                                            <span v-if="sample_products.length == 1">
+                                                {{ (( (parseFloat(sample_products[0].total_amount)).toFixed(2) *
+                                                    (parseInt(data.tva) == 0 ? 1 : (parseInt(data.tva)/100).toFixed(2))
+                                                     ) - parseFloat(data.discount)).toFixed(2)}}
+                                            </span>
+                                            <span v-if="sample_products.length >= 2">
+                                                {{ (( (sample_products.reduce((a,b) => (parseFloat(a.total_amount) +
+                                                parseFloat(b.total_amount)))).toFixed(2) * 
+                                                (parseInt(data.tva) == 0 ? 1 : (parseInt(data.tva)/100).toFixed(2))
+                                                ) - parseFloat(data.discount)).toFixed(2) }}
+                                            </span>
+                                        </td>
+                                        <td> </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            
+
                             <div>
-                              {{ sample_products }}                              
+                                {{ data }} <br>
+                                {{ sample_products }}
                             </div>
-                                        
+
                         </div>
                     </div>
 
@@ -223,7 +282,7 @@
                         <button @click="add(data)" class="button"> {{ create }} </button>
                         <button class="button" @click="test_console(sample_products)"> Post to console </button>
 
-                        <button @click="status = 1" class="button">
+                        <button @click="stage = 1" class="button">
                             First Part
                         </button>
                     </div>
@@ -243,9 +302,10 @@ export default {
     data() {
         return {
             loading: false,
-            stage: 1,
+            stage: 2,
             sample_products: [{
                 id: this.uuidv4(),
+                product_number : '',
                 qty: '4',
                 base_price: '6',
                 total_amount: 24.000,
@@ -255,7 +315,16 @@ export default {
             parties: {},
             companies: {},
             tva_rates: {},
-            data: {},
+            // data: {},    // JSON Data
+            data: {
+                "c": "5046f93c-78ff-4e20-bb05-2f937e59b89c",
+                "tva": 10,
+                "quote_ref": "asdasdasd",
+                "quote_ref_date": "2022-09-02",
+                "p": "0b83c08e-c84d-45ea-a492-a1d7e988fbdd",
+                "date": "2022-09-16",
+                "discount": "300"
+            },
             create: "Add Products Now",
             ref_data: {
                 id: 100,
@@ -274,7 +343,7 @@ export default {
                 __createdtime__: 1662989993547,
                 __updatedtime__: 1662990610895
             },
-            
+
         };
     },
     mounted: function () {
@@ -285,7 +354,9 @@ export default {
             console.clear()
             console.log(x)
         },
-        
+
+
+
         uuidv4() {
             const d = new Date();
             var aa = d.getDay() + "" + d.getMonth() + "" + d.getFullYear() + '' + d.getSeconds() + "" + d.getMilliseconds();
@@ -347,12 +418,12 @@ export default {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 </style>
