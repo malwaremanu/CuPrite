@@ -284,7 +284,8 @@ export default {
           
           if (response.status == 200) {
             if(self.$de(response.data.data).error){
-              self.login_btn = 'Login Failed'
+              alert('Username or Uassword is not Correct. Login Failed.')
+              self.login_btn = 'Login'
             }
             else{
               self.login_btn = 'Login Succesfull'
