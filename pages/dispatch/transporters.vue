@@ -188,7 +188,7 @@ export default {
             myHeaders.append("Authorization", "Basic bWFsd2FyZW1hbnU6TWFudUBwcm9kMQ==");
             var raw = JSON.stringify({
                 "operation": "sql",
-                "sql": "SELECT * FROM dispatch." + self.f_data.year + " WHERE transporter = '" + self.f_data.transporter + "' "
+                "sql": "SELECT * FROM dispatch." + self.f_data.year + " WHERE transporter = '" + self.f_data.transporter + "' limit 5"
             });
             var requestOptions = {
                 method: "POST",
@@ -196,7 +196,7 @@ export default {
                 body: raw,
                 redirect: "follow"
             };
-            fetch("https://prod-cuprite.harperdbcloud.com", requestOptions)
+            fetch(self.$store.state.prod_hd, requestOptions)
                 .then(response => response.text())
                 .then(result => {
                     self.d_data = JSON.parse(result)
