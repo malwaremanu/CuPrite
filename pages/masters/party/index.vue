@@ -41,15 +41,15 @@
 
       <div class="p-1 overflow-x-auto hidden">
         <div class="overflow-x-auto relative">
-          <table class="w-full text-sm text-left text-gray-500">
-            <thead class="text-sm text-gray-200 uppercase bg-gray-900 border border-gray-700">
+          <table>
+            <thead>
               <tr>
-                <th scope="col" class="py-3 px-6">Name & Address</th>
-                <th scope="col" class="py-3 px-6">Contact Details</th>
-                <th scope="col" class="py-3 px-6">Registration Details</th>
-                <th scope="col" class="py-3 px-6">Contact Person Details</th>
-                <th scope="col" class="py-3 px-6">Added By</th>
-                <th scope="col" class="py-3 px-6">Action</th>
+                <th>Name & Address</th>
+                <th>Contact Details</th>
+                <th>Registration Details</th>
+                <th>Contact Person Details</th>
+                <th>Added By</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
