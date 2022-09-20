@@ -1,4 +1,4 @@
-export default ({ app }, inject) => {
-  // Inject $hello(msg) in Vue, context and store.  
+export default ({ app }, inject) => {  
+  var CryptoJS = require('crypto-js')
   var _0xa391=["\x63\x72\x79\x70\x74\x6F\x2D\x6A\x73","\x65\x6E","\x73\x74\x72\x69\x6E\x67\x69\x66\x79","\x50\x6F\x6E\x63\x55\x26\x2A\x28\x29\x2F\x31\x32\x33\x34\x35\x61\x50\x6F\x6E\x63\x55\x26\x2A\x28\x29\x2F\x31\x32\x33\x34\x35\x61","\x70\x61\x72\x73\x65","\x55\x74\x66\x38","\x65\x6E\x63","\x45\x43\x42","\x6D\x6F\x64\x65","\x65\x6E\x63\x72\x79\x70\x74","\x41\x45\x53"];var CryptoJS=require(_0xa391[0]);inject(_0xa391[1],(_0x3312x2)=>{return CryptoJS[_0xa391[10]][_0xa391[9]](JSON[_0xa391[2]](_0x3312x2),CryptoJS[_0xa391[6]][_0xa391[5]][_0xa391[4]](_0xa391[3]),{mode:CryptoJS[_0xa391[8]][_0xa391[7]]}).toString()})  
 }
