@@ -221,8 +221,8 @@ export default {
   pageTransition: 'page',
   data() {
     return {
-      username: 'malwareman',
-      password: 'Manu@harper1',
+      username: 'asd',
+      password: 'asd@asd',
       popup_msg: '',
       login_btn: 'Login',
     }
