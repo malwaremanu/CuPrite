@@ -33,7 +33,7 @@ export default {
   css: ['~/assets/main.css', '@/assets/css/main.css',],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/en.js', '~/plugins/de.js'],
+  plugins: ['~/plugins/en.js', '~/plugins/de.js', '~/plugins/napi.js', '~/plugins/alrt.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
