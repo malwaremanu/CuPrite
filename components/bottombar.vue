@@ -20,7 +20,7 @@
         class="container flex flex-wrap justify-between items-center mx-auto"
       >
         <div class="flex items-center">
-          <Small-logo />
+        <nuxt-link to="/dashboard"> <Small-logo /> </nuxt-link> 
         </div>
         <div class="flex md:order-2">
           <nuxt-link

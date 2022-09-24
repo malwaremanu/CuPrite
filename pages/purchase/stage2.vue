@@ -24,7 +24,7 @@
 
       <div class="text-primary-600 p-2 dark:text-primary-600 dark:bg-gray-800">
         <div class="text-lg font-semibold">Purchase Order</div>
-        <div class="text-xs">Add New</div>
+        <div class="text-xs">Add New {{ routes_data }}</div>
       </div>
     </div>
 
@@ -41,112 +41,7 @@
         </div>
 
         <div v-show="!loading">
-          <div v-show="stage == 1">
-            <div class="grid-2">
-              <div>
-                <label>PO Date </label>
-                <input type="date" v-model="data.date" />
-              </div>
 
-              <div>
-                <label>PO Number (Auto) </label>
-                <input type="text" v-model="data.id" readonly />
-              </div>
-            </div>
-
-            <div class="grid-3">
-              <div>
-                <label>Quote / Reference quote_ref </label>
-                <input type="text" v-model="data.quote_ref" />
-              </div>
-
-              <div>
-                <label>Quote / Reference Date </label>
-                <input type="date" v-model="data.quote_ref_date" />
-              </div>
-
-              <div>
-                <label>TVA Rates</label>
-                <select v-model="data.tva">
-                  <option
-                    v-for="c in tva_rates"
-                    :key="c.uuid"
-                    :value="c.percentage"
-                  >
-                    {{ c.percentage }}
-                  </option>
-                </select>
-                <div class="hidden">
-                  {{ tva_rates }}
-                </div>
-              </div>
-            </div>
-
-            <div class="grid-2">
-              <div>
-                <label>From </label>
-                <select v-model="data.c">
-                  <option v-for="c in companies" :key="c.uuid" :value="c.uuid">
-                    {{ c.title }}
-                  </option>
-                </select>
-
-                <div class="hidden">
-                  {{ companies }}
-                </div>
-              </div>
-              <div>
-                <label>Choose Party </label>
-                <select v-model="data.p">
-                  <option v-for="c in parties" :key="c.uuid" :value="c.uuid">
-                    {{ c.party }}
-                  </option>
-                </select>
-                <div class="hidden">
-                  {{ parties }}
-                </div>
-              </div>
-            </div>
-
-            <div class="grid-3">
-              <div>
-                <label>Discount Type ({{ data.discount_type }}) </label>
-                <select v-model="data.discount_type">
-                  <option value="flat">Flat</option>
-                  <option value="individual">Individual</option>
-                </select>
-              </div>
-
-              <div v-show="data.discount_type == 'flat'">
-                <label
-                  >Flat Discount Type ({{ data.flat_discount_type }})
-                </label>
-                <select v-model="data.flat_discount_type">
-                  <option value="percentage">Percentage</option>
-                  <option value="value">Value</option>
-                </select>
-              </div>
-
-              <div v-show="data.flat_discount_type">
-                <label>Flat Discount ({{ data.flat_discount_type }}) </label>
-                <input
-                  type="number"
-                  v-model="data.discount"
-                  @keyup="
-                    data.flat_discount_type == 'percentage' &&
-                    parseInt(data.discount) > 99
-                      ? (() => {
-                          $alert('Percentage can not be more then 99')
-                          data.discount = 0
-                        })()
-                      : ''
-                  "
-                />
-              </div>
-            </div>
-          </div>
-
-          <div v-show="stage == 2">
             <div class="overflow-x-auto relative">
               <table>
                 <thead>
@@ -438,15 +333,13 @@
                 {{ sample_products }}
               </div>
             </div>
-          </div>
 
           <div class="p-4 flex items-center gap-2">
             <button @click="add(data)" class="button">{{ create }}</button>
             <button class="button" @click="test_console(sample_products)">
               Post to console
             </button>
-
-            <button @click="stage = 1" class="button">First Part</button>
+            <button class="button">First Part</button>
           </div>
         </div>
       </div>
@@ -476,20 +369,36 @@ export default {
       ],
 
       addt: 'add',
+      routes_data : " asasd ",
       parties: {},
       companies: {},
       tva_rates: {},
       // data: {},    // JSON Data
       data: {
-        c: '5046f93c-78ff-4e20-bb05-2f937e59b89c',
         tva: 10,
         quote_ref: 'asdasdasd',
         quote_ref_date: '2022-09-02',
-        p: '0b83c08e-c84d-45ea-a492-a1d7e988fbdd',
+        p: '',
         date: '2022-09-16',
         discount: '',
         discount_type: '',
         flat_discount_type: '',
+
+
+        "total_amount": "",
+        "from": "suryamines",
+        "tva_rate": "",
+        "quote_ref": "",
+        "date": "",
+        "discount": "",
+        "tva_amount": "",
+        "party": "SRP Sadid",
+        "remark": "",
+        "id": 101,
+        "gross_total": "",
+        "type": "",
+        "quote_ref_date": ""
+        
       },
       create: 'Add Products Now',
       ref_data: {
@@ -512,9 +421,11 @@ export default {
     }
   },
   mounted: function () {
-    this.get_data() //method1 will execute at pageload
+    // this.get_data() //method1 will execute at pageload
   },
   methods: {
+    
+
     test_console(x) {
       console.clear()
       console.log(this.data)
@@ -585,6 +496,7 @@ export default {
     },
     add(x) {
       this.create = 'Create'
+      console.log()
       this.stage = 2
       console.log(x)
     },

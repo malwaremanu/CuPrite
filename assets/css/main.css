@@ -67,12 +67,16 @@ label {
   @apply inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-600 bg-primary-200 rounded-full dark:bg-primary-900 dark:text-primary-200;
 }
 
+.grid-1 {
+  @apply grid items-center bg-gray-50 dark:bg-gray-900 m-4 rounded-md gap-4 p-5;
+}
+
 .grid-2 {
-  @apply grid grid-cols-2 items-center bg-gray-100 dark:bg-gray-900 m-4 rounded-md gap-4 p-5;
+  @apply grid grid-cols-2 items-center bg-gray-50 dark:bg-gray-900 m-4 rounded-md gap-4 p-5;
 }
 
 .grid-3 {
-  @apply grid grid-cols-3 items-center bg-gray-100 dark:bg-gray-900 m-4 rounded-md gap-4 p-5;
+  @apply grid grid-cols-3 items-center bg-gray-50 dark:bg-gray-900 m-4 rounded-md gap-4 p-5;
 }
 
 table {
@@ -93,4 +97,9 @@ table td {
 
 table tbody tr {
   @apply bg-white border-b hover:bg-primary-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600;
+}
+
+
+.card {
+  @apply text-2xl p-9 border dark:text-white text-gray-900 rounded-xl bg-white dark:bg-gray-800 shadow hover:shadow-lg  cursor-pointer
 }

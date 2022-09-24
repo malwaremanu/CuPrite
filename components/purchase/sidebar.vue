@@ -32,7 +32,7 @@
         </li>
 
         <li class="w-full text-left">
-          <nuxt-link to="/purchase/add_order"
+          <nuxt-link to="/purchase/stage1"
             ><button class="sidebar_btn">Create New</button></nuxt-link
           >
         </li>
