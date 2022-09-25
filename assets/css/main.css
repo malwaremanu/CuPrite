@@ -56,7 +56,7 @@ select {
 }
 
 label {
-  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300;
+  @apply block text-sm font-medium text-gray-900 dark:text-gray-300;
 }
 
 .sidebar_btn {
@@ -96,9 +96,8 @@ table td {
 }
 
 table tbody tr {
-  @apply bg-white border-b hover:bg-primary-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600;
+  @apply bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600;
 }
-
 
 .card {
   @apply text-2xl p-9 border dark:text-white text-gray-900 rounded-xl bg-white dark:bg-gray-800 shadow hover:shadow-lg  cursor-pointer

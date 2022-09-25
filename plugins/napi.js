@@ -3,7 +3,7 @@ import axios from "axios"
 import Vue from 'vue'
 Vue.mixin({
     methods:{
-        napi(url, data){
+        napi(url, data, this_method="POST"){
             let headersList = {
             "Accept": "*/*",
             "Content-Type": "application/json",
@@ -12,7 +12,7 @@ Vue.mixin({
       
       let reqOptions = {
           url: this.$store.state.api_url + url,
-          method: "POST",
+          method: this_method,
           headers: headersList,
           data: JSON.stringify(data),
         }      

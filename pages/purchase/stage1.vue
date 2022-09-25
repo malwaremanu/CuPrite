@@ -66,8 +66,8 @@
           <div class="grid-2">
             <div>
               <label>From </label>
-              <select v-model="data.c">
-                <option v-for="c in companies" :key="c.uuid" :value="c.uuid">
+              <select v-model="data.company">
+                <option v-for="c in companies" :key="c.title" :value="c.title">
                   {{ c.title }}
                 </option>
               </select>
@@ -79,7 +79,7 @@
             <div>
               <label>Choose Party </label>
               <select v-model="data.party">
-                <option v-for="c in parties" :key="c.uuid" :value="c.uuid">
+                <option v-for="c in parties" :key="c.uuid" :value="c.party">
                   {{ c.party }}
                 </option>
               </select>
@@ -163,7 +163,7 @@ export default {
         "tva_amount" : 0,
         "total_amount": "",
         
-        "from": "Suryamines",
+        "company": "Suryamines",
         "party": "",
         
         "gross_total": "",
@@ -233,7 +233,7 @@ export default {
       //   })
     },
     async add(x) {
-      this.create = 'Create'
+      this.create = 'Adding...'
       var r = await this.napi('/purchase/init/', this.data)
       console.log('Posted Init Data : ', r.data.message)      
       if(r.data.message == "inserted 1 of 1 records"){
