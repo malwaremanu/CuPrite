@@ -19,11 +19,10 @@
       <div class="overflow-x-auto">
         <div v-show="order_details.id">
           Purchase Order : {{ order_details }}
-
-          <div class="grid grid-cols-4">
+          <div class="flex-between">
             <div>
               <label>PO Number</label>
-              {{ order_details.id }}
+              <span class="text-xl"> {{ order_details.type }}/{{ order_details.id }} </span>
             </div>
             <div>
               <label>PO Date</label>
@@ -39,13 +38,24 @@
             </div>
           </div>
 
-          <div class="grid-2">
+          <div class="flex-between">
             <div>
               <label>From</label>
               {{ order_details.company }}
-              <br />
+            </div>
+            <div>
               <label>To</label>
               {{ order_details.party }}
+            </div>
+
+            <div>
+              <label>TVA Amount ({{ order_details.tva_rate }})</label>
+              {{ order_details.tva_amount }}
+            </div>
+
+            <div>
+              <label>To</label>
+              {{ order_details.discount }}
             </div>
           </div>
 
