@@ -33,48 +33,7 @@
     >
       <div class="overflow-x-auto">
         <div v-show="order_details.id">
-          Purchase Order : {{ order_details }}
-          <div class="flex-between">
-            <div>
-              <label>PO Number</label>
-              <span class="text-xl">
-                {{ order_details.type }}/{{ order_details.id }}
-              </span>
-            </div>
-            <div>
-              <label>PO Date</label>
-              {{ order_details.date }}
-            </div>
-            <div>
-              <label>Quote/Ref</label>
-              {{ order_details.quote_ref }}
-            </div>
-            <div>
-              <label>Quote/Ref Date</label>
-              {{ order_details.quote_ref_date }}
-            </div>
-          </div>
-
-          <div class="flex-between">
-            <div>
-              <label>From</label>
-              {{ order_details.company }}
-            </div>
-            <div>
-              <label>To</label>
-              {{ order_details.party }}
-            </div>
-
-            <div>
-              <label>TVA Amount ({{ order_details.tva_rate }})</label>
-              {{ order_details.tva_amount }}
-            </div>
-
-            <div>
-              <label>To</label>
-              {{ order_details.discount }}
-            </div>
-          </div>
+          <Basicdetails :order_details="order_details" />
         </div>
 
         <div v-show="loading">
@@ -90,6 +49,9 @@
                   <th>Description*</th>
                   <th>QTY* & Unit</th>
                   <th>Base Price*</th>
+                  <th v-show="order_details.discount_type != 'flat'">
+                    Discount
+                  </th>
                   <th>Net Amount</th>
                   <th>Action</th>
                 </tr>
@@ -180,6 +142,9 @@
                       required
                     </span>
                   </td>
+                  <td v-show="order_details.discount_type != 'flat'">
+                    <input type="number" />
+                  </td>
                   <td>
                     <span
                       class="text-lg text-primary-700 dark:text-gray-50"
@@ -245,6 +210,7 @@
                   </td>
                   <td></td>
                   <td></td>
+                  <td v-show="order_details.discount_type != 'flat'"></td>
                   <td></td>
                   <td class="text-2xl text-primary-700 font-semibold">
                     <span v-if="sample_products.length == 1">
@@ -267,11 +233,17 @@
                   <td></td>
                 </tr>
 
-                <tr class="p-3 py-5" v-show="parseFloat(data.tva) > 0">
+                <tr
+                  class="p-3 py-5"
+                  v-show="parseFloat(order_details.tva_rate) > 0"
+                >
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td class="text-lg py-5">TVA {{ data.tva }}%</td>
+                  <td v-show="order_details.discount_type != 'flat'"></td>
+                  <td class="text-lg py-5">
+                    TVA {{ order_details.tva_rate }}%
+                  </td>
                   <td class="text-xl text-primary-700 font-semibold">
                     <span v-if="sample_products.length == 1">
                       {{
@@ -279,9 +251,11 @@
                           parseFloat(sample_products[0].total_amount).toFixed(
                             2
                           ) *
-                          (parseInt(data.tva) == 0
+                          (parseInt(order_details.tva_rate) == 0
                             ? 1
-                            : (parseInt(data.tva) / 100).toFixed(2))
+                            : (parseInt(order_details.tva_rate) / 100).toFixed(
+                                2
+                              ))
                         ).toFixed(2)
                       }}
                     </span>
@@ -309,6 +283,7 @@
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td v-show="order_details.discount_type != 'flat'"></td>
                   <td class="text-lg py-5">Discount</td>
                   <td class="text-xl text-primary-700 font-semibold">
                     <span v-if="sample_products.length == 1">
@@ -325,6 +300,7 @@
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td v-show="order_details.discount_type != 'flat'"></td>
                   <td class="text-lg py-5">Gross Amount</td>
                   <td class="text-2xl text-primary-700 font-semibold">
                     <span v-if="sample_products.length == 1">
@@ -387,7 +363,7 @@
 import Isloading from '~/components/isloading.vue'
 var url = process.env.base_url
 const axios = require('axios').default
-
+import Basicdetails from '../../components/purchase/basicdetails.vue'
 export default {
   data() {
     return {
@@ -399,6 +375,7 @@ export default {
           product_number: '',
           qty: '4',
           base_price: '6',
+          discount: '0',
           total_amount: 24.0,
         },
       ],
@@ -452,30 +429,29 @@ export default {
       },
       routes_data: this.$route.query.q,
       order_details: {
-        company: 'Semhkat',
-        total_amount: '',
+        company: '...',
+        total_amount: '...',
         from: null,
         tva_rate: 16,
-        discount_type: 'flat',
-        quote_ref: 'some quote',
+        discount_type: '...',
+        quote_ref: '...',
         date: '2022-09-16',
         discount: 55,
         tva_amount: 0,
-        party: 'MOUNT MERU PETROLEUM (CONGO) SARL',
-        remark: 'some remark',
+        party: '...',
+        remark: '...',
         __updatedtime__: 1664112976639,
         id: 101,
         gross_total: '',
-        type: 'Purchase',
-        flat_discount_type: 'value',
-        quote_ref_date: '2022-09-15',
+        type: '...',
+        flat_discount_type: '...',
+        quote_ref_date: '....',
         __createdtime__: 1664112976639,
-        products: [],
       },
     }
   },
   mounted: function () {
-    // this.get_order_details() // First Boot
+    this.get_order_details() // First Boot
   },
   methods: {
     test_console(x) {
@@ -486,7 +462,7 @@ export default {
     async get_order_details() {
       const self = this
       var r = await self.napi('/purchase/' + self.$route.query.q, {}, 'GET')
-      self.order_details = r.data
+      self.order_details = r.data._data[0]
     },
     uuidv4() {
       const d = new Date()
@@ -557,20 +533,6 @@ export default {
       console.log(x)
     },
   },
-  components: { Isloading },
+  components: { Isloading, Basicdetails },
 }
 </script>
-
-<style>
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type='number'] {
-  -moz-appearance: textfield;
-}
-</style>
