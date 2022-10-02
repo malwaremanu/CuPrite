@@ -108,13 +108,37 @@ table th {
 }
 
 table td {
-  @apply p-2;
+  @apply p-1;
 }
 
 table tbody tr {
-  @apply bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600;
+  @apply bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-900;
 }
 
 .card {
   @apply text-2xl p-9 border dark:text-white text-gray-900 rounded-xl bg-white dark:bg-gray-800 shadow hover:shadow-lg  cursor-pointer;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 1px grey;
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #c9c9c9;
 }

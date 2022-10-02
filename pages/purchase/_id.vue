@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="!loaded">
+    <!-- <div v-show="!loaded">
       <div v-show="!error" class="uppercase font-semibold text-center mx-auto mt-10">
         Please Wait. We are loading the purchase order 
         <center>
@@ -19,7 +19,13 @@
           <nuxt-link to="/login" class="font-semibold underline border rounded-md p-1"> Login Page </nuxt-link>
       </div>
     </div>
-    <div v-show="loaded" class="p-2 relative min-h-screen">
+    
+    v-show="loaded"
+     -->
+    <div  class="p-2 relative min-h-screen">
+      
+      {{ data }}
+      
       <div>
         <img
           class="w-full mb-4"
@@ -55,7 +61,7 @@
           <div v-show="this.data[0].FROM == 'SEMHKAT'">
             <span class="text-xs uppercase"> From </span>
 
-            <div class="text-semibold text-lg">SEMHKAT SARL</div>
+            <div class="text-semibold text-lg"> Semhkat Sarl </div>
             <div class="text-sm">
               506, Avenue Abbé Kahozi, <br />
               Commune Lubumbashi, ville <br />
@@ -223,19 +229,15 @@ export default {
     },
 
     async get_po_details() {
+      const self = this
       try {
-        const response = await axios.get(
-          'https://restv1.deta.dev/po/' +
-            this.$route.params.id +
-            '/' +
-            sessionStorage.getItem('operation_token')
-        )
+        const response = await self.napi('/purchase/' + this.$route.params.id, {}, "GET")
         console.log(response)
         if(response.data.status == 'success' ){
-          this.data = response.data.purchase_order
-          this.products = response.data.products
-          this.party = response.data.party
-          this.loaded = true
+          self.data = response.data
+          // this.products = response.data.products
+          // this.party = response.data.party
+          self.loaded = true
         }else{
           this.error = true
           this.err_msg = response.data.msg            

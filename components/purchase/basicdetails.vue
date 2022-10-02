@@ -42,12 +42,17 @@
 
       <div>
         <label>TVA Amount (Rate : {{ order_details.tva_rate }}%)</label>
-        {{ order_details.tva_amount }}
+        {{ order_details.tva_amount }}        
       </div>
 
       <div>
         <label>Discount Type</label>
         {{ order_details.discount_type }}
+      </div>
+
+      <div v-show="order_details.discount_type == 'flat'">
+        <label>Flat Discount </label>
+        {{ order_details.discount }} <span v-show="order_details.flat_discount_type == 'percentage'">%</span>        
       </div>
     </div>
   </div>

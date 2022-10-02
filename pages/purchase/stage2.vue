@@ -1,23 +1,10 @@
 <template>
   <div class="min-h-screen select-none">
-    <div
-      class="p-2 flex items-center text-primary-600 dark:text-primary-600 dark:bg-gray-800"
-    >
+    <div class="p-2 flex items-center text-primary-600 dark:text-primary-600 dark:bg-gray-800">
       <button class="p-2 text-center">
         <NuxtLink to="/purchase">
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 19l-7-7 7-7"
-            />
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </NuxtLink>
       </button>
@@ -28,9 +15,7 @@
       </div>
     </div>
 
-    <div
-      class="text-primary-600 dark:text-primary-600 dark:bg-gray-800 px-4 min-h-screen"
-    >
+    <div class="text-primary-600 dark:text-primary-600 dark:bg-gray-800 px-4 min-h-screen">
       <div class="overflow-x-auto">
         <div v-show="order_details.id">
           <Basicdetails :order_details="order_details" />
@@ -57,32 +42,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="(p, key) in sample_products"
-                  :key="p.id"
-                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <th
-                    scope="row"
-                    class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    <input
-                      type="text"
-                      @keyup="
-                        $event.target.value = $event.target.value.toUpperCase()
-                      "
-                      v-model="p.product_number"
-                    />
+                <tr v-for="(p, key) in sample_products" :key="p.id"
+                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <input type="text" @keyup="
+                      $event.target.value = $event.target.value.toUpperCase()
+                    " v-model="p.product_number" />
                     <span class="text-xs hidden" v-text="uuidv4()"></span>
                   </th>
                   <td>
-                    <input
-                      type="textarea"
-                      @keyup="
-                        $event.target.value = $event.target.value.toUpperCase()
-                      "
-                      v-model="p.desc"
-                    />
+                    <input type="textarea" @keyup="
+                      $event.target.value = $event.target.value.toUpperCase()
+                    " v-model="p.desc" />
                     <span v-show="!p.desc" class="text-red-700 text-xs">
                       required
                     </span>
@@ -90,21 +61,8 @@
                   <td>
                     <div class="grid-2">
                       <div>
-                        <input
-                          type="number"
-                          class="appearance-none"
-                          @keyup="
-                            p.total_amount = (
-                              parseFloat(p.base_price) * parseFloat(p.qty)
-                            ).toFixed(2)
-                          "
-                          @keydown="
-                            p.total_amount = (
-                              parseFloat(p.base_price) * parseFloat(p.qty)
-                            ).toFixed(2)
-                          "
-                          v-model="p.qty"
-                        />
+                        <input type="number" class="appearance-none" @keyup="calculate_amount(p)"
+                          @keydown="calculate_amount(p)" v-model="p.qty" />
                         <span v-show="!p.qty" class="text-red-700 text-xs">
                           required
                         </span>
@@ -123,86 +81,44 @@
                     </div>
                   </td>
                   <td>
-                    <input
-                      type="number"
-                      class="appearance-none"
-                      @keyup="
-                        p.total_amount = (
-                          parseFloat(p.base_price) * parseFloat(p.qty)
-                        ).toFixed(2)
-                      "
-                      @keydown="
-                        p.total_amount = (
-                          parseFloat(p.base_price) * parseFloat(p.qty)
-                        ).toFixed(2)
-                      "
-                      v-model="p.base_price"
-                    />
+                    <input type="number" class="appearance-none" @keyup="calculate_amount(p)"
+                      @keydown="calculate_amount(p)" v-model="p.base_price" />
                     <span v-show="!p.base_price" class="text-red-700 text-xs">
                       required
                     </span>
                   </td>
                   <td v-show="order_details.discount_type != 'flat'">
-                    <input type="number" />
+                    <input type="number" v-model="p.discount" @keyup="calculate_amount(p)"
+                      @keydown="calculate_amount(p)" />
                   </td>
                   <td>
-                    <span
-                      class="text-lg text-primary-700 dark:text-gray-50"
-                      v-text="parseFloat(p.total_amount).toFixed(2)"
-                    ></span>
+                    <span class="text-lg text-primary-700 dark:text-gray-50"
+                      v-text="parseFloat(p.total_amount).toFixed(2)"></span>
                   </td>
                   <td>
-                    <div
-                      v-show="sample_products.length - 1 == key"
-                      class="flex items-center gap-2"
-                    >
-                      <button
-                        class="small-button"
-                        @click="add_new_product"
-                        v-show="
-                          p.total_amount != NaN && p.total_amount >= 1 && p.desc
-                        "
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          ></path>
+                    <div v-show="sample_products.length - 1 == key" class="flex items-center gap-2">
+                      <button class="small-button" @click="add_new_product" v-show="
+                        p.total_amount != NaN && p.total_amount >= 1 && p.desc
+                      ">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
                         Add
                       </button>
-                      <button
-                        v-show="key != 0"
-                        class="small-button"
-                        @click="delete_product"
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"
-                          ></path>
+                      <button v-show="key != 0" class="small-button" @click="delete_product">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                         Remove
                       </button>
                     </div>
                   </td>
                 </tr>
+                <!-- Table Completed -->
 
                 <tr class="p-3 py-5">
                   <td class="text-lg py-5">
@@ -215,28 +131,25 @@
                   <td class="text-2xl text-primary-700 font-semibold">
                     <span v-if="sample_products.length == 1">
                       {{
-                        parseFloat(sample_products[0].total_amount).toFixed(2)
+                      parseFloat(sample_products[0].total_amount).toFixed(2)
                       }}
                     </span>
                     <span v-if="sample_products.length >= 2">
                       {{
-                        sample_products
-                          .reduce(
-                            (a, b) =>
-                              parseFloat(a.total_amount) +
-                              parseFloat(b.total_amount)
-                          )
-                          .toFixed(2)
+                      sample_products
+                      .reduce(
+                      (a, b) =>
+                      parseFloat(a.total_amount) +
+                      parseFloat(b.total_amount)
+                      )
+                      .toFixed(2)
                       }}
                     </span>
                   </td>
                   <td></td>
                 </tr>
 
-                <tr
-                  class="p-3 py-5"
-                  v-show="parseFloat(order_details.tva_rate) > 0"
-                >
+                <tr class="p-3 py-5" v-show="parseFloat(order_details.tva_rate) > 0">
                   <td></td>
                   <td></td>
                   <td></td>
@@ -247,50 +160,47 @@
                   <td class="text-xl text-primary-700 font-semibold">
                     <span v-if="sample_products.length == 1">
                       {{
-                        (
-                          parseFloat(sample_products[0].total_amount).toFixed(
-                            2
-                          ) *
-                          (parseInt(order_details.tva_rate) == 0
-                            ? 1
-                            : (parseInt(order_details.tva_rate) / 100).toFixed(
-                                2
-                              ))
-                        ).toFixed(2)
+                      (
+                      parseFloat(sample_products[0].total_amount).toFixed(
+                      2
+                      ) *
+                      (parseInt(order_details.tva_rate) == 0
+                      ? 1
+                      : (parseInt(order_details.tva_rate) / 100).toFixed(
+                      2
+                      ))
+                      ).toFixed(2)
                       }}
                     </span>
                     <span v-if="sample_products.length >= 2">
                       {{
-                        (
-                          sample_products
-                            .reduce(
-                              (a, b) =>
-                                parseFloat(a.total_amount) +
-                                parseFloat(b.total_amount)
-                            )
-                            .toFixed(2) *
-                          (parseInt(data.tva) == 0
-                            ? 1
-                            : (parseInt(data.tva) / 100).toFixed(2))
-                        ).toFixed(2)
+                      (
+                      sample_products
+                      .reduce(
+                      (a, b) =>
+                      parseFloat(a.total_amount) +
+                      parseFloat(b.total_amount)
+                      )
+                      .toFixed(2) *
+                      (parseInt(data.tva) == 0
+                      ? 1
+                      : (parseInt(data.tva) / 100).toFixed(2))
+                      ).toFixed(2)
                       }}
                     </span>
                   </td>
                   <td></td>
                 </tr>
 
-                <tr class="p-3 py-5">
+                <tr class="p-3 py-5" v-show="order_details.discount_type == 'flat'">
                   <td></td>
                   <td></td>
                   <td></td>
                   <td v-show="order_details.discount_type != 'flat'"></td>
                   <td class="text-lg py-5">Discount</td>
                   <td class="text-xl text-primary-700 font-semibold">
-                    <span v-if="sample_products.length == 1">
-                      {{ data.discount }}
-                    </span>
-                    <span v-if="sample_products.length >= 2">
-                      {{ data.discount }}
+                    <span>
+                      {{ order_details.discount }}
                     </span>
                   </td>
                   <td></td>
@@ -303,20 +213,8 @@
                   <td v-show="order_details.discount_type != 'flat'"></td>
                   <td class="text-lg py-5">Gross Amount</td>
                   <td class="text-2xl text-primary-700 font-semibold">
-                    <span v-if="sample_products.length == 1">
-                      {{
-                        (
-                          parseFloat(sample_products[0].total_amount).toFixed(
-                            2
-                          ) *
-                            (parseInt(data.tva) == 0
-                              ? 1
-                              : (parseInt(data.tva) / 100).toFixed(2)) -
-                          parseFloat(data.discount)
-                        ).toFixed(2)
-                      }}
-                    </span>
-                    <span v-if="sample_products.length >= 2">
+                    <span v-text="calculate_gross_amount(sample_products)"></span>
+                    <!-- <span v-if="sample_products.length >= 2">
                       {{
                         (
                           sample_products
@@ -332,21 +230,21 @@
                           parseFloat(data.discount)
                         ).toFixed(2)
                       }}
-                    </span>
+                    </span> -->
                   </td>
                   <td></td>
                 </tr>
               </tbody>
             </table>
 
-            <div>
+            <div class="hidden">
               {{ data }} <br />
               {{ sample_products }}
             </div>
           </div>
 
           <div class="p-4 flex items-center gap-2">
-            <button @click="add(data)" class="button">{{ create }}</button>
+            <button v-show="" @click="add(data)" class="button">{{ create }}</button>
             <button class="button" @click="test_console(sample_products)">
               Post to console
             </button>
@@ -523,15 +421,134 @@ export default {
       //     // self.loading = false
       //   })
     },
-    add(x) {
-      this.create = 'Create'
-      console.log()
-      this.stage = 2
-      console.log(x)
-    },
     cons(x) {
       console.log(x)
     },
+    calculte_tva_amount() {
+      // calculating tax
+      const self = this
+      var tax = self.order_details.tva_rate
+
+      self.order_details.tva_amount = 0
+      if (this.sample_products.length == 1) {
+        self.order_details.tva_amount = (
+          this.sample_products
+            .reduce(
+              (a, b) =>
+                parseFloat(a.total_amount) +
+                parseFloat(b.total_amount)
+            )
+            .toFixed(2) *
+          (parseInt(tax) == 0
+            ? 0
+            : (parseInt(tax) / 100))
+          - parseFloat(discount)
+        ).toFixed(2)
+
+        return self.order_details.tva_amount
+      }
+      else {
+        self.order_details.tva_amount = ((parseFloat(self.sample_products[0].total_amount).toFixed(2) *
+          (parseInt(self.order_details.tva_rate) == 0 ? 0 : parseInt(self.order_details.tva_rate) / 100).toFixed(2))
+        ).toFixed(2)
+        return self.order_details.tva_amount
+      }
+
+    },
+    calculate_amount(p) {
+      console.clear()      
+      const self = this
+      self.calculte_tva_amount()
+
+      // defining discount 
+      var discount = 0
+      if (self.order_details.discount_type == 'flat') {
+        if (this.data.discount.length > 0) {
+          discount = parseFloat(this.data.discount)
+        } else {
+          discount = 0
+        }
+      }
+
+      if (self.order_details.discount_type == 'individual') {
+        if (p.discount) {
+          if (p.discount.length > 0) {
+            discount = parseFloat(p.discount)
+          } else {
+            discount = 0
+          }
+        }
+      }
+
+      // main function 
+      if (this.order_details.discount_type == 'individual') {
+        console.log('Individual Discount available...')
+        p.total_amount = ((parseFloat(p.base_price) * parseFloat(p.qty)) - discount).toFixed(2)
+      }
+      else {
+        console.log('individual Discount not available...')
+        p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)
+      }
+
+      console.log(p)
+    },
+    calculate_gross_amount(sample_products) {
+      const self = this
+      console.clear()
+      self.calculte_tva_amount()
+
+      // defining discount
+      console.log("dis", self.order_details.discount)
+      var discount = 0
+      if (self.order_details.discount_type == 'flat') {
+        if ((self.order_details.discount).toString() > 0) {
+          console.log("discount length is more than 0")
+          discount = parseFloat(self.order_details.discount)
+        } else {
+          console.log("discount length is 0")
+          discount = 0
+        }
+      }
+
+      if (self.order_details.discount_type == 'individual') {
+        discount = 0
+      }
+
+      // defining tax 
+      var tax = self.order_details.tva_rate
+      console.log(tax)
+
+      if (this.sample_products.length == 1) {
+        console.log('we got single product')
+        console.log("discount", discount)
+        return (
+          parseFloat((this.sample_products[0].total_amount) *
+            // tax
+            (tax == 0
+              ? 1
+              : 1 + (parseInt(tax) / 100))
+            // deducting discount if any
+            - parseFloat(discount)
+          ).toFixed(2)
+        )
+      } else {
+        console.log('we got multiple products')
+        return (
+          this.sample_products
+            .reduce(
+              (a, b) =>
+                parseFloat(a.total_amount) +
+                parseFloat(b.total_amount)
+            )
+            .toFixed(2) *
+          (parseInt(tax) == 0
+            ? 1
+            : 1 + (parseInt(tax) / 100))
+          - parseFloat(discount)
+        ).toFixed(2)
+      }
+
+    }
   },
   components: { Isloading, Basicdetails },
 }

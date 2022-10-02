@@ -94,7 +94,7 @@
               <label>Discount Type</label>
               <select v-model="data.discount_type">
                 <option value="flat">Flat</option>
-                <option value="individual">Individual</option>
+                <!-- <option value="individual">Individual</option> -->
               </select>
             </div>
 
