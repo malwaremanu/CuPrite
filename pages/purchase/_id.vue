@@ -38,27 +38,27 @@
           <div class="w-1/3">
             <img
               class="min-w-[50px] max-w-[150px]"
-              v-show="this.data[0].FROM == 'SEMHKAT'"
+              v-show="data[0].company == 'Semhkat'"
               src="~/assets/Semhkat.png"
             />
             <img
-              v-show="this.data[0].FROM == 'SURYAMINES'"
+              v-show="data[0].company == 'Suryamines'"
               src="~/assets/Suryamines.png"
             />
           </div>
           <div class="text-right">
-            <div>Date : {{ data[0].PO_DATE }}</div>
+            <div>Date : {{ data[0].date }}</div>
             <div class="text-2xl text-yellow-700 font-semibold">
-              Purchase Order
+              {{ data[0].type }} Order
             </div>
             <div class="text-yellow-900 font-semibold text-xl">
-              # {{ data[0].PO_NUMBER }}
+              # {{ data[0].id }}
             </div>
           </div>
         </div>
 
         <div class="flex justify-between">
-          <div v-show="this.data[0].FROM == 'SEMHKAT'">
+          <div v-show="data[0].company == 'Semhkat'">
             <span class="text-xs uppercase"> From </span>
 
             <div class="text-semibold text-lg"> Semhkat Sarl </div>
@@ -74,8 +74,16 @@
             </div>
           </div>
 
-          <div v-show="this.data[0].FROM == 'SURYAMINES'">
-            From Suryamines SARL details pending...
+          <div v-show="data[0].company == 'Suryamines'">
+            <span class="text-xs uppercase"> From </span>
+            <div class="text-semibold text-lg">
+            {{ data[0].company }}
+            </div>
+            <div class="text-sm">
+            <br />
+            some address <br />
+            some more details <br />
+            </div>
           </div>
 
           <div></div>
@@ -84,7 +92,7 @@
             <span class="text-xs uppercase"> TO </span>
 
             <div class="text-semibold text-lg">
-              {{ data[0].SUPPLIER }}
+              {{ data[0].party }}
             </div>
             <div class="text-sm">
               <br />
@@ -206,7 +214,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      data: [
+      data : [
         {
           FROM: '',
         },
@@ -232,16 +240,17 @@ export default {
       const self = this
       try {
         const response = await self.napi('/purchase/' + this.$route.params.id, {}, "GET")
-        console.log(response)
-        if(response.data.status == 'success' ){
-          self.data = response.data
+        console.log(response.data._data)
+        
+          self.data = response.data._data
           // this.products = response.data.products
           // this.party = response.data.party
           self.loaded = true
-        }else{
-          this.error = true
-          this.err_msg = response.data.msg            
-        }
+        
+          // error case
+          // this.error = true
+          // this.err_msg = response.data.msg            
+        
         
       } catch (error) {
         console.error(error)

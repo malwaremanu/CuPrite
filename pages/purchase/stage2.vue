@@ -17,15 +17,14 @@
 
     <div class="text-primary-600 dark:text-primary-600 dark:bg-gray-800 px-4 min-h-screen">
       <div class="overflow-x-auto">
-        <div v-show="order_details.id">
-          <Basicdetails :order_details="order_details" />
-        </div>
-
         <div v-show="loading">
           <Isloading />
         </div>
 
         <div v-show="!loading">
+          <div v-show="order_details.id">
+            <Basicdetails :order_details="order_details" />
+          </div>
           <div class="overflow-x-auto relative">
             <table>
               <thead>
@@ -80,7 +79,7 @@
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <td>                    
                     <input type="number" class="appearance-none" @keyup="calculate_amount(p)"
                       @keydown="calculate_amount(p)" v-model="p.base_price" />
                     <span v-show="!p.base_price" class="text-red-700 text-xs">
@@ -92,7 +91,7 @@
                       @keydown="calculate_amount(p)" />
                   </td>
                   <td>
-                    <span class="text-lg text-primary-700 dark:text-gray-50"
+                    <span class="text-center text-lg text-primary-700 dark:text-gray-50"
                       v-text="parseFloat(p.total_amount).toFixed(2)"></span>
                   </td>
                   <td>
@@ -118,8 +117,8 @@
                     </div>
                   </td>
                 </tr>
-                <!-- Table Completed -->
 
+                <!-- Table Completed -->
                 <tr class="p-3 py-5">
                   <td class="text-lg py-5">
                     Product(s) : {{ sample_products.length }}
@@ -129,7 +128,8 @@
                   <td v-show="order_details.discount_type != 'flat'"></td>
                   <td></td>
                   <td class="text-2xl text-primary-700 font-semibold">
-                    <span v-if="sample_products.length == 1">
+                    <span v-text="calculate_total_amount()"></span>
+                    <!-- <span v-if="sample_products.length == 1">
                       {{
                       parseFloat(sample_products[0].total_amount).toFixed(2)
                       }}
@@ -144,7 +144,7 @@
                       )
                       .toFixed(2)
                       }}
-                    </span>
+                    </span> -->
                   </td>
                   <td></td>
                 </tr>
@@ -158,36 +158,7 @@
                     TVA {{ order_details.tva_rate }}%
                   </td>
                   <td class="text-xl text-primary-700 font-semibold">
-                    <span v-if="sample_products.length == 1">
-                      {{
-                      (
-                      parseFloat(sample_products[0].total_amount).toFixed(
-                      2
-                      ) *
-                      (parseInt(order_details.tva_rate) == 0
-                      ? 1
-                      : (parseInt(order_details.tva_rate) / 100).toFixed(
-                      2
-                      ))
-                      ).toFixed(2)
-                      }}
-                    </span>
-                    <span v-if="sample_products.length >= 2">
-                      {{
-                      (
-                      sample_products
-                      .reduce(
-                      (a, b) =>
-                      parseFloat(a.total_amount) +
-                      parseFloat(b.total_amount)
-                      )
-                      .toFixed(2) *
-                      (parseInt(data.tva) == 0
-                      ? 1
-                      : (parseInt(data.tva) / 100).toFixed(2))
-                      ).toFixed(2)
-                      }}
-                    </span>
+                    <span v-text="calculte_tva_amount()"></span>
                   </td>
                   <td></td>
                 </tr>
@@ -244,7 +215,14 @@
           </div>
 
           <div class="p-4 flex items-center gap-2">
-            <button v-show="" @click="add(data)" class="button">{{ create }}</button>
+
+            <div class="p-3" v-show="(this.calculate_gross_amount() < 0)">
+              Gross Error : Gross Total is Negative.  
+            </div>
+            <button v-show="(this.calculate_gross_amount() >= 0)" @click="update_po(order_details, sample_products)" 
+              class="button"> {{ create }}
+            </button>
+
             <button class="button" @click="test_console(sample_products)">
               Post to console
             </button>
@@ -307,7 +285,7 @@ export default {
         type: '',
         quote_ref_date: '',
       },
-      create: 'Add Products Now',
+      create: 'Update PO',
       ref_data: {
         id: 100,
         date: '',
@@ -359,8 +337,10 @@ export default {
     },
     async get_order_details() {
       const self = this
+      self.loading = true
       var r = await self.napi('/purchase/' + self.$route.query.q, {}, 'GET')
       self.order_details = r.data._data[0]
+      self.loading = false
     },
     uuidv4() {
       const d = new Date()
@@ -424,13 +404,15 @@ export default {
     cons(x) {
       console.log(x)
     },
-    calculte_tva_amount() {
+    calculte_tva_amount(discount) {
       // calculating tax
+      console.log("updating discount ", discount)
+
       const self = this
       var tax = self.order_details.tva_rate
 
-      self.order_details.tva_amount = 0
-      if (this.sample_products.length == 1) {
+      // self.order_details.tva_amount = 0
+      if (this.sample_products.length >= 2) {
         self.order_details.tva_amount = (
           this.sample_products
             .reduce(
@@ -439,24 +421,22 @@ export default {
                 parseFloat(b.total_amount)
             )
             .toFixed(2) *
-          (parseInt(tax) == 0
-            ? 0
-            : (parseInt(tax) / 100))
-          - parseFloat(discount)
+          (parseInt(self.order_details.tva_rate) == 0 ? 0 : parseInt(self.order_details.tva_rate) / 100).toFixed(2)
         ).toFixed(2)
-
+        console.log("total tva amount for multi check", self.order_details.tva_amount)
         return self.order_details.tva_amount
       }
       else {
         self.order_details.tva_amount = ((parseFloat(self.sample_products[0].total_amount).toFixed(2) *
           (parseInt(self.order_details.tva_rate) == 0 ? 0 : parseInt(self.order_details.tva_rate) / 100).toFixed(2))
         ).toFixed(2)
+        console.log("total tva amount for single product", self.order_details.tva_amount)
         return self.order_details.tva_amount
       }
 
     },
     calculate_amount(p) {
-      console.clear()      
+      console.clear()
       const self = this
       self.calculte_tva_amount()
 
@@ -492,10 +472,24 @@ export default {
 
       console.log(p)
     },
+    calculate_total_amount() {
+      if (this.sample_products.length == 1) {
+        return this.order_details.total_amount = parseFloat(this.sample_products[0].total_amount).toFixed(2)
+      }
+
+      if (this.sample_products.length >= 2) {
+        return this.order_details.total_amount = this.sample_products
+          .reduce(
+            (a, b) =>
+              parseFloat(a.total_amount) +
+              parseFloat(b.total_amount)
+          )
+          .toFixed(2)
+      }
+    },
     calculate_gross_amount(sample_products) {
       const self = this
       console.clear()
-      self.calculte_tva_amount()
 
       // defining discount
       console.log("dis", self.order_details.discount)
@@ -514,6 +508,8 @@ export default {
         discount = 0
       }
 
+      self.calculte_tva_amount(discount)
+
       // defining tax 
       var tax = self.order_details.tva_rate
       console.log(tax)
@@ -521,7 +517,7 @@ export default {
       if (this.sample_products.length == 1) {
         console.log('we got single product')
         console.log("discount", discount)
-        return (
+        self.order_details.gross_total = (
           parseFloat((this.sample_products[0].total_amount) *
             // tax
             (tax == 0
@@ -531,9 +527,11 @@ export default {
             - parseFloat(discount)
           ).toFixed(2)
         )
+        console.clear()
+        return self.order_details.gross_total
       } else {
         console.log('we got multiple products')
-        return (
+        self.order_details.gross_total = (
           this.sample_products
             .reduce(
               (a, b) =>
@@ -546,7 +544,27 @@ export default {
             : 1 + (parseInt(tax) / 100))
           - parseFloat(discount)
         ).toFixed(2)
+        console.clear()
+        return self.order_details.gross_total
       }
+
+    },
+    async update_po(po, products) {
+      const self = this
+      console.clear()
+      var temp = {
+        "total_amount": po.total_amount,
+        "tva_rate": po.tva_rate,
+        "tva_amount": po.tva_amount,
+        "discount": po.discount,
+        "id": po.id,
+        "gross_total": po.gross_total,
+      }
+      console.log("temp", temp)      
+      self.loading = true
+      var r = await self.napi('/purchase/' + self.$route.query.q, temp)
+      self.loading = false
+      console.log("---- updated PO", r.data)
 
     }
   },
