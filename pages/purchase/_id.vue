@@ -22,16 +22,11 @@
     
     v-show="loaded"
      -->
-    <div  class="p-2 relative min-h-screen">
-      
+    <div class="p-2 relative min-h-screen">
       {{ data }}
-      
+
       <div>
-        <img
-          class="w-full mb-4"
-          src="~/assets/header.png"
-          alt=""
-        />
+        <img class="w-full mb-4" src="~/assets/header.png" alt="" />
       </div>
       <div class="">
         <div class="flex items-center justify-between">
@@ -61,7 +56,7 @@
           <div v-show="data[0].company == 'Semhkat'">
             <span class="text-xs uppercase"> From </span>
 
-            <div class="text-semibold text-lg"> Semhkat Sarl </div>
+            <div class="text-semibold text-lg">Semhkat Sarl</div>
             <div class="text-sm">
               506, Avenue Abbé Kahozi, <br />
               Commune Lubumbashi, ville <br />
@@ -77,12 +72,12 @@
           <div v-show="data[0].company == 'Suryamines'">
             <span class="text-xs uppercase"> From </span>
             <div class="text-semibold text-lg">
-            {{ data[0].company }}
+              {{ data[0].company }}
             </div>
             <div class="text-sm">
-            <br />
-            some address <br />
-            some more details <br />
+              <br />
+              some address <br />
+              some more details <br />
             </div>
           </div>
 
@@ -131,29 +126,32 @@
             </td>
           </tr>
           <tr
-            v-for="(value, key) in products"
+            v-for="(value, key) in data[0]['products']"
             :key="key"
-            class="text-left border"
+            class="text-left border bg-white"
           >
             <td class="text-left pl-2">{{ key + 1 }}.</td>
             <td>
-              {{ value.PART_NUMBER }}
+              {{ value.part_no }}
             </td>
             <td>
-              {{ value.DESCRIPTION }}
+              {{ value.desc }}
             </td>
-            <td>{{ value.QUANTITY }}</td>
-            <td>$ {{ value.BASE_PRICE }}</td>
-            <td>$ {{ value.NET_AMOUNT }}</td>
+            <td>{{ value.qty }}</td>
+            <td>{{ value.base_price }}</td>
+            <td>{{ value.total_amount }}</td>
           </tr>
         </table>
 
         <div class="flex items-center justify-between">
           <div class="mt-14 p-4">
-            <div v-show="this.data[0].FROM == 'SEMHKAT'" class="text-left">
+            <div v-show="this.data[0].company == 'Semhkat'" class="text-left">
               FOR SEMHKAT SARL
             </div>
-            <div v-show="this.data[0].FROM == 'SURYAMINES'" class="text-left">
+            <div
+              v-show="this.data[0].company == 'Suryamines'"
+              class="text-left"
+            >
               FOR SURYAMINES SARL
             </div>
 
@@ -214,7 +212,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      data : [
+      data: [
         {
           FROM: '',
         },
@@ -222,8 +220,8 @@ export default {
       products: '',
       party: '',
       loaded: false,
-      error : false,
-      err_msg : ''
+      error: false,
+      err_msg: '',
     }
   },
   mounted() {
@@ -239,19 +237,21 @@ export default {
     async get_po_details() {
       const self = this
       try {
-        const response = await self.napi('/purchase/' + this.$route.params.id, {}, "GET")
+        const response = await self.napi(
+          '/purchase/' + this.$route.params.id,
+          {},
+          'GET'
+        )
         console.log(response.data._data)
-        
-          self.data = response.data._data
-          // this.products = response.data.products
-          // this.party = response.data.party
-          self.loaded = true
-        
-          // error case
-          // this.error = true
-          // this.err_msg = response.data.msg            
-        
-        
+
+        self.data = response.data._data
+        // this.products = response.data.products
+        // this.party = response.data.party
+        self.loaded = true
+
+        // error case
+        // this.error = true
+        // this.err_msg = response.data.msg
       } catch (error) {
         console.error(error)
         this.error = true
