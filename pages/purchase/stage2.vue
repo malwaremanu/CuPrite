@@ -468,6 +468,7 @@ export default {
       var r = await self.napi('/purchase/', {})
       console.log(r)
       self.loading = false
+
       // axios
       //   .post(self.$store.state.api_url + '/purchase/boot')
       //   .then(function (response) {
