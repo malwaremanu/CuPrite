@@ -330,19 +330,7 @@ export default {
     return {
       loading: false,
       stage: 1,
-      sample_products: [
-        {
-          id: this.uuidv4(),
-          product_number: '',
-          qty: '4',
-          base_price: '6',
-          discount: '0',
-          total_amount: 24.0,
-        },
-      ],
-
       addt: 'add',
-
       parties: {},
       companies: {},
       tva_rates: {},
@@ -409,6 +397,17 @@ export default {
         quote_ref_date: '....',
         __createdtime__: 1664112976639,
       },
+      sample_products: [
+        {
+          id: this.uuidv4(),
+          product_number: '',
+          qty: '4',
+          base_price: '6',
+          discount: '0',
+          total_amount: 24.0,
+          po_no: this.$route.query.q,
+        },
+      ],
     }
   },
   mounted: function () {
@@ -452,6 +451,7 @@ export default {
       this.sample_products.push({
         id: this.uuidv4(),
         total_amount: 0,
+        po_no: this.order_details.id,
       })
     },
 
@@ -655,8 +655,11 @@ export default {
       self.loading = true
       var r = await self.napi('/purchase/' + self.$route.query.q, {
         po_details: temp,
+        po_products: products,
       })
+
       self.loading = false
+      alert(r.data._data.order.message)
       console.log('---- updated PO', r.data)
     },
   },

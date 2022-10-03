@@ -1,7 +1,6 @@
 <template>
   <div>
-    Purchase Order : {{ order_details }}
-
+    <div class="hidden">Purchase Order : {{ order_details }}</div>
     <div class="flex-between">
       <div>
         <label>PO No.</label>
@@ -42,7 +41,7 @@
 
       <div>
         <label>TVA Amount (Rate : {{ order_details.tva_rate }}%)</label>
-        {{ order_details.tva_amount }}        
+        {{ order_details.tva_amount }}
       </div>
 
       <div>
@@ -52,7 +51,8 @@
 
       <div v-show="order_details.discount_type == 'flat'">
         <label>Flat Discount </label>
-        {{ order_details.discount }} <span v-show="order_details.flat_discount_type == 'percentage'">%</span>        
+        {{ order_details.discount }}
+        <span v-show="order_details.flat_discount_type == 'percentage'">%</span>
       </div>
     </div>
   </div>
