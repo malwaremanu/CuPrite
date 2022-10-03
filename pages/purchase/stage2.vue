@@ -1,10 +1,23 @@
 <template>
   <div class="min-h-screen select-none">
-    <div class="p-2 flex items-center text-primary-600 dark:text-primary-600 dark:bg-gray-800">
+    <div
+      class="p-2 flex items-center text-primary-600 dark:text-primary-600 dark:bg-gray-800"
+    >
       <button class="p-2 text-center">
         <NuxtLink to="/purchase">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </NuxtLink>
       </button>
@@ -15,7 +28,9 @@
       </div>
     </div>
 
-    <div class="text-primary-600 dark:text-primary-600 dark:bg-gray-800 px-4 min-h-screen">
+    <div
+      class="text-primary-600 dark:text-primary-600 dark:bg-gray-800 px-4 min-h-screen"
+    >
       <div class="overflow-x-auto">
         <div v-show="loading">
           <Isloading />
@@ -41,18 +56,32 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(p, key) in sample_products" :key="p.id"
-                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <input type="text" @keyup="
-                      $event.target.value = $event.target.value.toUpperCase()
-                    " v-model="p.product_number" />
+                <tr
+                  v-for="(p, key) in sample_products"
+                  :key="p.id"
+                  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                >
+                  <th
+                    scope="row"
+                    class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    <input
+                      type="text"
+                      @keyup="
+                        $event.target.value = $event.target.value.toUpperCase()
+                      "
+                      v-model="p.product_number"
+                    />
                     <span class="text-xs hidden" v-text="uuidv4()"></span>
                   </th>
                   <td>
-                    <input type="textarea" @keyup="
-                      $event.target.value = $event.target.value.toUpperCase()
-                    " v-model="p.desc" />
+                    <input
+                      type="textarea"
+                      @keyup="
+                        $event.target.value = $event.target.value.toUpperCase()
+                      "
+                      v-model="p.desc"
+                    />
                     <span v-show="!p.desc" class="text-red-700 text-xs">
                       required
                     </span>
@@ -60,8 +89,13 @@
                   <td>
                     <div class="grid-2">
                       <div>
-                        <input type="number" class="appearance-none" @keyup="calculate_amount(p)"
-                          @keydown="calculate_amount(p)" v-model="p.qty" />
+                        <input
+                          type="number"
+                          class="appearance-none"
+                          @keyup="calculate_amount(p)"
+                          @keydown="calculate_amount(p)"
+                          v-model="p.qty"
+                        />
                         <span v-show="!p.qty" class="text-red-700 text-xs">
                           required
                         </span>
@@ -79,38 +113,78 @@
                       </div>
                     </div>
                   </td>
-                  <td>                    
-                    <input type="number" class="appearance-none" @keyup="calculate_amount(p)"
-                      @keydown="calculate_amount(p)" v-model="p.base_price" />
+                  <td>
+                    <input
+                      type="number"
+                      class="appearance-none"
+                      @keyup="calculate_amount(p)"
+                      @keydown="calculate_amount(p)"
+                      v-model="p.base_price"
+                    />
                     <span v-show="!p.base_price" class="text-red-700 text-xs">
                       required
                     </span>
                   </td>
                   <td v-show="order_details.discount_type != 'flat'">
-                    <input type="number" v-model="p.discount" @keyup="calculate_amount(p)"
-                      @keydown="calculate_amount(p)" />
+                    <input
+                      type="number"
+                      v-model="p.discount"
+                      @keyup="calculate_amount(p)"
+                      @keydown="calculate_amount(p)"
+                    />
                   </td>
                   <td>
-                    <span class="text-center text-lg text-primary-700 dark:text-gray-50"
-                      v-text="parseFloat(p.total_amount).toFixed(2)"></span>
+                    <span
+                      class="text-center text-lg text-primary-700 dark:text-gray-50"
+                      v-text="parseFloat(p.total_amount).toFixed(2)"
+                    ></span>
                   </td>
                   <td>
-                    <div v-show="sample_products.length - 1 == key" class="flex items-center gap-2">
-                      <button class="small-button" @click="add_new_product" v-show="
-                        p.total_amount != NaN && p.total_amount >= 1 && p.desc
-                      ">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    <div
+                      v-show="sample_products.length - 1 == key"
+                      class="flex items-center gap-2"
+                    >
+                      <button
+                        class="small-button"
+                        @click="add_new_product"
+                        v-show="
+                          p.total_amount != NaN && p.total_amount >= 1 && p.desc
+                        "
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          ></path>
                         </svg>
                         Add
                       </button>
-                      <button v-show="key != 0" class="small-button" @click="delete_product">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path>
+                      <button
+                        v-show="key != 0"
+                        class="small-button"
+                        @click="delete_product"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          ></path>
                         </svg>
                         Remove
                       </button>
@@ -149,7 +223,10 @@
                   <td></td>
                 </tr>
 
-                <tr class="p-3 py-5" v-show="parseFloat(order_details.tva_rate) > 0">
+                <tr
+                  class="p-3 py-5"
+                  v-show="parseFloat(order_details.tva_rate) > 0"
+                >
                   <td></td>
                   <td></td>
                   <td></td>
@@ -163,7 +240,10 @@
                   <td></td>
                 </tr>
 
-                <tr class="p-3 py-5" v-show="order_details.discount_type == 'flat'">
+                <tr
+                  class="p-3 py-5"
+                  v-show="order_details.discount_type == 'flat'"
+                >
                   <td></td>
                   <td></td>
                   <td></td>
@@ -184,7 +264,9 @@
                   <td v-show="order_details.discount_type != 'flat'"></td>
                   <td class="text-lg py-5">Gross Amount</td>
                   <td class="text-2xl text-primary-700 font-semibold">
-                    <span v-text="calculate_gross_amount(sample_products)"></span>
+                    <span
+                      v-text="calculate_gross_amount(sample_products)"
+                    ></span>
                     <!-- <span v-if="sample_products.length >= 2">
                       {{
                         (
@@ -215,12 +297,15 @@
           </div>
 
           <div class="p-4 flex items-center gap-2">
-
-            <div class="p-3" v-show="(this.calculate_gross_amount() < 0)">
-              Gross Error : Gross Total is Negative.  
+            <div class="p-3" v-show="this.calculate_gross_amount() < 0">
+              Gross Error : Gross Total is Negative.
             </div>
-            <button v-show="(this.calculate_gross_amount() >= 0)" @click="update_po(order_details, sample_products)" 
-              class="button"> {{ create }}
+            <button
+              v-show="this.calculate_gross_amount() >= 0"
+              @click="update_po(order_details, sample_products)"
+              class="button"
+            >
+              {{ create }}
             </button>
 
             <button class="button" @click="test_console(sample_products)">
@@ -406,7 +491,7 @@ export default {
     },
     calculte_tva_amount(discount) {
       // calculating tax
-      console.log("updating discount ", discount)
+      console.log('updating discount ', discount)
 
       const self = this
       var tax = self.order_details.tva_rate
@@ -416,31 +501,40 @@ export default {
         self.order_details.tva_amount = (
           this.sample_products
             .reduce(
-              (a, b) =>
-                parseFloat(a.total_amount) +
-                parseFloat(b.total_amount)
+              (a, b) => parseFloat(a.total_amount) + parseFloat(b.total_amount)
             )
             .toFixed(2) *
-          (parseInt(self.order_details.tva_rate) == 0 ? 0 : parseInt(self.order_details.tva_rate) / 100).toFixed(2)
+          (parseInt(self.order_details.tva_rate) == 0
+            ? 0
+            : parseInt(self.order_details.tva_rate) / 100
+          ).toFixed(2)
         ).toFixed(2)
-        console.log("total tva amount for multi check", self.order_details.tva_amount)
+        console.log(
+          'total tva amount for multi check',
+          self.order_details.tva_amount
+        )
+        return self.order_details.tva_amount
+      } else {
+        self.order_details.tva_amount = (
+          parseFloat(self.sample_products[0].total_amount).toFixed(2) *
+          (parseInt(self.order_details.tva_rate) == 0
+            ? 0
+            : parseInt(self.order_details.tva_rate) / 100
+          ).toFixed(2)
+        ).toFixed(2)
+        console.log(
+          'total tva amount for single product',
+          self.order_details.tva_amount
+        )
         return self.order_details.tva_amount
       }
-      else {
-        self.order_details.tva_amount = ((parseFloat(self.sample_products[0].total_amount).toFixed(2) *
-          (parseInt(self.order_details.tva_rate) == 0 ? 0 : parseInt(self.order_details.tva_rate) / 100).toFixed(2))
-        ).toFixed(2)
-        console.log("total tva amount for single product", self.order_details.tva_amount)
-        return self.order_details.tva_amount
-      }
-
     },
     calculate_amount(p) {
       console.clear()
       const self = this
       self.calculte_tva_amount()
 
-      // defining discount 
+      // defining discount
       var discount = 0
       if (self.order_details.discount_type == 'flat') {
         if (this.data.discount.length > 0) {
@@ -460,31 +554,35 @@ export default {
         }
       }
 
-      // main function 
+      // main function
       if (this.order_details.discount_type == 'individual') {
         console.log('Individual Discount available...')
-        p.total_amount = ((parseFloat(p.base_price) * parseFloat(p.qty)) - discount).toFixed(2)
-      }
-      else {
+        p.total_amount = (
+          parseFloat(p.base_price) * parseFloat(p.qty) -
+          discount
+        ).toFixed(2)
+      } else {
         console.log('individual Discount not available...')
-        p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(2)
+        p.total_amount = (parseFloat(p.base_price) * parseFloat(p.qty)).toFixed(
+          2
+        )
       }
 
       console.log(p)
     },
     calculate_total_amount() {
       if (this.sample_products.length == 1) {
-        return this.order_details.total_amount = parseFloat(this.sample_products[0].total_amount).toFixed(2)
+        return (this.order_details.total_amount = parseFloat(
+          this.sample_products[0].total_amount
+        ).toFixed(2))
       }
 
       if (this.sample_products.length >= 2) {
-        return this.order_details.total_amount = this.sample_products
+        return (this.order_details.total_amount = this.sample_products
           .reduce(
-            (a, b) =>
-              parseFloat(a.total_amount) +
-              parseFloat(b.total_amount)
+            (a, b) => parseFloat(a.total_amount) + parseFloat(b.total_amount)
           )
-          .toFixed(2)
+          .toFixed(2))
       }
     },
     calculate_gross_amount(sample_products) {
@@ -492,14 +590,14 @@ export default {
       console.clear()
 
       // defining discount
-      console.log("dis", self.order_details.discount)
+      console.log('dis', self.order_details.discount)
       var discount = 0
       if (self.order_details.discount_type == 'flat') {
-        if ((self.order_details.discount).toString() > 0) {
-          console.log("discount length is more than 0")
+        if (self.order_details.discount.toString() > 0) {
+          console.log('discount length is more than 0')
           discount = parseFloat(self.order_details.discount)
         } else {
-          console.log("discount length is 0")
+          console.log('discount length is 0')
           discount = 0
         }
       }
@@ -510,23 +608,20 @@ export default {
 
       self.calculte_tva_amount(discount)
 
-      // defining tax 
+      // defining tax
       var tax = self.order_details.tva_rate
       console.log(tax)
 
       if (this.sample_products.length == 1) {
         console.log('we got single product')
-        console.log("discount", discount)
-        self.order_details.gross_total = (
-          parseFloat((this.sample_products[0].total_amount) *
+        console.log('discount', discount)
+        self.order_details.gross_total = parseFloat(
+          this.sample_products[0].total_amount *
             // tax
-            (tax == 0
-              ? 1
-              : 1 + (parseInt(tax) / 100))
+            (tax == 0 ? 1 : 1 + parseInt(tax) / 100) -
             // deducting discount if any
-            - parseFloat(discount)
-          ).toFixed(2)
-        )
+            parseFloat(discount)
+        ).toFixed(2)
         console.clear()
         return self.order_details.gross_total
       } else {
@@ -534,39 +629,35 @@ export default {
         self.order_details.gross_total = (
           this.sample_products
             .reduce(
-              (a, b) =>
-                parseFloat(a.total_amount) +
-                parseFloat(b.total_amount)
+              (a, b) => parseFloat(a.total_amount) + parseFloat(b.total_amount)
             )
             .toFixed(2) *
-          (parseInt(tax) == 0
-            ? 1
-            : 1 + (parseInt(tax) / 100))
-          - parseFloat(discount)
+            (parseInt(tax) == 0 ? 1 : 1 + parseInt(tax) / 100) -
+          parseFloat(discount)
         ).toFixed(2)
         console.clear()
         return self.order_details.gross_total
       }
-
     },
     async update_po(po, products) {
       const self = this
       console.clear()
       var temp = {
-        "total_amount": po.total_amount,
-        "tva_rate": po.tva_rate,
-        "tva_amount": po.tva_amount,
-        "discount": po.discount,
-        "id": po.id,
-        "gross_total": po.gross_total,
+        total_amount: po.total_amount,
+        tva_rate: po.tva_rate,
+        tva_amount: po.tva_amount,
+        discount: po.discount,
+        id: po.id,
+        gross_total: po.gross_total,
       }
-      console.log("temp", temp)      
+      console.log('temp', temp)
       self.loading = true
-      var r = await self.napi('/purchase/' + self.$route.query.q, temp)
+      var r = await self.napi('/purchase/' + self.$route.query.q, {
+        po_details: temp,
+      })
       self.loading = false
-      console.log("---- updated PO", r.data)
-
-    }
+      console.log('---- updated PO', r.data)
+    },
   },
   components: { Isloading, Basicdetails },
 }
