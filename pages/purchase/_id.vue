@@ -234,7 +234,14 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      data: [{ company: '....', date: '2000-01-00', discount_type: '' }],
+      data: [
+        {
+          company: '....',
+          date: '2000-01-00',
+          discount_type: '',
+          remark: '',
+        },
+      ],
       products: '',
       party: '',
       loaded: false,
