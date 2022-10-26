@@ -9,7 +9,7 @@
         </NuxtLink>
       </button>
 
-      <div class="text-primary-600 p-2 text-primary-600 dark:text-primary-600 dark:bg-gray-800">
+      <div class="p-2 text-primary-600 dark:text-primary-600 dark:bg-gray-800">
         <div class="text-lg font-semibold">Masters Page</div>
         <div class="text-xs">Edit Party </div>
       </div>
@@ -37,9 +37,39 @@
           </div>
 
           <div class="p-4">
+            <label>Fax</label>
+            <input v-model="parties.fax" />
+          </div>
+
+          <div class="p-4">
+            <label>NAT ID</label>
+            <input v-model="parties.nat_id" />
+          </div>
+
+          <div class="p-4">
+            <label>NIF ID</label>
+            <input v-model="parties.nif_id" />
+          </div>
+
+          <div class="p-4">
+            <label>RCCM ID</label>
+            <input v-model="parties.rccm_id" />
+          </div>
+
+          <div class="p-4">
+            <label>Telephone / Mobile</label>
+            <input v-model="parties.tel" />
+          </div>
+
+          <div class="p-4">
+            <label>Website</label>
+            <input v-model="parties.website" />
+          </div>
+
+          <div class="p-4">
             <label>Address</label>
-            <input v-model="parties.address_1" /><br>
-            <input v-model="parties.address_2" />
+            <input v-model="parties.address_1" placeholder="address line 1" /><br>
+            <input v-model="parties.address_2" placeholder="address line 2" />
           </div>
 
           <div class="p-4">
@@ -51,8 +81,8 @@
           </div>
 
           <div class="p-4 flex items-center gap-2">
-            <button @click="update_data(parties)" class="button"> {{ update }} </button>
-            <button class="button"> Deactivate </button>
+            <button @click="update_data()" class="button"> {{ update }} </button>
+            <button class="hidden"> Deactivate </button>
           </div>
 
 
@@ -122,11 +152,11 @@ export default {
       }]
       // console.log('url is' + url)
 
-      var r = await self.napi('/parties/' + self.$route.params.id, {}, "GET")      
+      var r = await self.napi('/parties/' + self.$route.params.id, {}, "GET")
       console.log(r.data._data)
       self.parties = r.data._data[0]
       self.loading = false
-      
+
       // const axios = require('axios').default
       // axios
       //   .get(self.$store.state.api_url + "/parties")
@@ -169,15 +199,17 @@ export default {
     async update_data() {
       let self = this
       // const axios = require('axios').default
-      console.log(self.temp_party)
-      
+      console.log(self.parties)
+
       // var r = await self.napi('/parties/', self.parties , "POST")
 
-      var r = await this.napi('/purchase/init/', self.parties)
+      var r = await this.napi('/parties/', self.parties)
 
       console.log(r.data._data)
 
-      
+      alert(r.data._data.message)
+
+
       // axios
       //   .post(url + 'masters/parties', this.temp_party)
       //   .then(function (response) {
