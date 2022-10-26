@@ -42,29 +42,36 @@
           <div class="w-1/3 p-3">
             <img
               class="min-w-[50px] max-w-[150px]"
-              v-show="data[0].company == 'Semhkat'"
+              v-show="data[0].company == 'SEMHKAT'"
               src="~/assets/Semhkat.png"
             />
             <img
-              v-show="data[0].company == 'Suryamines'"
+              v-show="data[0].company == 'SURYAMINES'"
               src="~/assets/Suryamines.png"
             />
           </div>
           <div class="text-right">
-            <div>Date : {{ data[0].date }}</div>
+            <div>Date : 
+              <span v-text="new Date(data[0].date).getDay()"></span> 
+              <span v-text="new Date(data[0].date).getMonth()"></span>
+              <span v-text="new Date(data[0].date).getYear()"></span>
+            </div>
             <div class="text-2xl text-yellow-700 font-semibold">
               {{ data[0].type }} Order
             </div>
             <div class="text-red-600 font-semibold text-2xl uppercase px-2">
-              {{ data[0].company.slice(0, 2) }}/{{
+              {{ data[0].company.slice(0, 2) }}/
+              22
+              <!-- {{
                 data[0].date.split('-')[0].slice(2, 4)
-              }}/{{ data[0].id }}
+              }} -->
+              /{{ data[0].id }}
             </div>
           </div>
         </div>
 
         <div class="flex justify-between">
-          <div v-show="data[0].company == 'Semhkat'">
+          <div v-show="data[0].company == 'SEMHKAT'">
             <span class="text-xs uppercase"> From </span>
 
             <div class="text-semibold text-lg uppercase">Semhkat Sarl</div>
@@ -80,7 +87,7 @@
             </div>
           </div>
 
-          <div v-show="data[0].company == 'Suryamines'">
+          <div v-show="data[0].company == 'SURYAMINES'">
             <span class="text-xs uppercase"> From </span>
             <div class="text-semibold text-lg uppercase">
               {{ data[0].company }}
@@ -132,7 +139,7 @@
           <tr
             v-for="(value, key) in data[0]['products']"
             :key="key"
-            class="text-left border bg-white uppercase"
+            class="text-left border bg-white uppercase text-gray-900"
           >
             <td class="text-left pl-2">{{ key + 1 }}.</td>
             <td>
@@ -170,7 +177,7 @@
           </div>
 
           <div>
-            <table class="p-3 bg-white">
+            <table class="p-3 bg-white text-gray-900">
               <tr class="border font-semibold">
                 <td colspan="4" class="text-right p-1 uppercase">AMOUNT</td>
                 <td class="text-lg">$ {{ data[0].total_amount }}</td>
@@ -212,14 +219,14 @@
       </div>
 
       <img
-        v-show="this.data[0].company == 'Semhkat'"
+        v-show="this.data[0].company == 'SEMHKAT'"
         class="w-full absolute bottom-0"
         src="~/assets/footerSemhkat.png"
         alt=""
       />
 
       <img
-        v-show="this.data[0].company == 'Suryamines'"
+        v-show="this.data[0].company == 'SURYAMINES'"
         class="w-full absolute bottom-0"
         src="~/assets/footerSuryamines.png"
         alt=""

@@ -99,9 +99,6 @@ table {
   @apply w-full text-sm text-left text-white bg-primary-700 dark:text-gray-700;
 }
 
-table td {
-  @apply text-gray-500 dark:text-gray-200;
-}
 
 table th {
   @apply text-white px-4 py-2;
