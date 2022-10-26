@@ -287,6 +287,8 @@ export default {
     },
 
     async get_po_details() {
+      console.clear()
+      
       const self = this
       try {
         const response = await self.napi(
@@ -294,7 +296,7 @@ export default {
           {},
           'GET'
         )
-        console.log(response.data._data)
+        console.log(response.data)
 
         self.data = response.data._data
         // this.products = response.data.products
