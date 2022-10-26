@@ -22,48 +22,29 @@
         </div>
 
         <div v-show="loading">
-
-
-          Please wait. We are loading data.
-
-
-          <div role="status" class="max-w-sm animate-pulse">
-            <div class="p-4">
-              <label class="">
-                <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-              </label>
-              <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-            </div>
-
-            <span class="sr-only">Loading...</span>
-          </div>
-
+          <Isloading />
         </div>
 
         <div v-show="!loading">
           <div class="p-4">
             <label>Party Name</label>
-            <input v-model="parties.PARTY" />
+            <input v-model="parties.party" />
           </div>
 
           <div class="p-4">
             <label>Email</label>
-            <input v-model="parties.EMAIL" />
+            <input v-model="parties.email" />
           </div>
 
           <div class="p-4">
-            <label>Address 1</label>
-            <input v-model="parties.ADDRESS_1" />
-          </div>
-
-          <div class="p-4">
-            <label>Address 2 </label>
-            <input v-model="parties.ADDRESS_2" />
+            <label>Address</label>
+            <input v-model="parties.address_1" /><br>
+            <input v-model="parties.address_2" />
           </div>
 
           <div class="p-4">
             <label>Status</label>
-            <select :select="parties.STATUS" v-model="parties.STATUS">
+            <select :select="parties.status" v-model="parties.status">
               <option value="ACTIVE">ACTIVE</option>
               <option value="INACTIVE">INACTIVE</option>
             </select>
@@ -108,34 +89,55 @@ export default {
       console.log(x)
     },
 
-    get_data() {
-      let self = this
+    async get_data() {
       // console.log('url is' + url)
 
-      axios
-        .post(self.$store.state.api_url, {
-          data: self.$en({
-            operation: 'sql',
-            sql: "select * from po.parties where id='" + self.$route.params.id + "'"
-          })
-        })
-        .then(function (response) {
-          console.log('this is party data', self.$de(response.data.data))
+      // axios
+      //   .post(self.$store.state.api_url, {
+      //     data: self.$en({
+      //       operation: 'sql',
+      //       sql: "select * from po.parties where id='" + self.$route.params.id + "'"
+      //     })
+      //   })
+      //   .then(function (response) {
+      //     console.log('this is party data', self.$de(response.data.data))
 
-          if(self.$de(response.data.data).length == 0){
-            alert('Party not found. Redirecting you to back page.')
-            self.$router.push('../')
-          }
-          else {
-            self.parties = self.$de(response.data.data)[0]          
-          }
-          console.log(self.parties)
-          self.loading = false
-        })
-        .catch(function (error) {
-          alert('Some error occured. Report to Manu')
-          console.log(error)
-        })
+      //     if(self.$de(response.data.data).length == 0){
+      //       alert('Party not found. Redirecting you to back page.')
+      //       self.$router.push('../')
+      //     }
+      //     else {
+      //       self.parties = self.$de(response.data.data)[0]          
+      //     }
+      //     console.log(self.parties)
+      //     self.loading = false
+      //   })
+      //   .catch(function (error) {
+      //     alert('Some error occured. Report to Manu')
+      //     console.log(error)
+      //   })      
+      let self = this
+      self.parties = [{
+        PARTY: 'Loading...'
+      }]
+      // console.log('url is' + url)
+
+      var r = await self.napi('/parties/' + self.$route.params.id, {}, "GET")      
+      console.log(r.data._data)
+      self.parties = r.data._data[0]
+      self.loading = false
+      
+      // const axios = require('axios').default
+      // axios
+      //   .get(self.$store.state.api_url + "/parties")
+      //   .then(function (response) {
+      //     //console.log('this is party data', self.$de(response.data.data))
+      //     self.parties = response.data.data
+      //     console.log(self.parties)          
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error)
+      //   })    
     },
 
     delete_data(x) {
@@ -164,37 +166,45 @@ export default {
         })
     },
 
-    post_data() {
+    async update_data() {
       let self = this
-      const axios = require('axios').default
+      // const axios = require('axios').default
       console.log(self.temp_party)
-      axios
-        .post(url + 'masters/parties', this.temp_party)
-        .then(function (response) {
-          console.log('this is post data', response.data.msg)
-          self.popup_msg = response.data.msg
+      
+      // var r = await self.napi('/parties/', self.parties , "POST")
 
-          axios
-            .get(url + 'masters/parties')
-            .then(function (response) {
-              console.log('this is get after post', response.data.msg)
-              self.parties = response.data
-              self.add_party_modal = false
+      var r = await this.napi('/purchase/init/', self.parties)
 
-              console.log(response)
-            })
-            .catch(function (error) {
-              console.log(error)
-            })
+      console.log(r.data._data)
 
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      
+      // axios
+      //   .post(url + 'masters/parties', this.temp_party)
+      //   .then(function (response) {
+      //     console.log('this is post data', response.data.msg)
+      //     self.popup_msg = response.data.msg
+
+      //     axios
+      //       .get(url + 'masters/parties')
+      //       .then(function (response) {
+      //         console.log('this is get after post', response.data.msg)
+      //         self.parties = response.data
+      //         self.add_party_modal = false
+
+      //         console.log(response)
+      //       })
+      //       .catch(function (error) {
+      //         console.log(error)
+      //       })
+
+      //     console.log(response)
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error)
+      //   })
     },
 
-    update_data(x) {
+    sdfupdate_data(x) {
       console.log(this.parties)
       const self = this
       self.update = "updating"

@@ -14,162 +14,169 @@
         <div class="text-xs">Parties Management</div>
       </div>
     </div>
-    <div class="text-white p-4">
-      <div>
-        <div class="text-gray-900 md:flex items-center gap-2 m-2">
-          <button class="button" @click="get_data">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            Refresh Data
-          </button>
 
-          <button @click="party_popup('show', 'Create')"
-            class="button">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
-            </svg>
+    <div v-show="loading">
+      <Isloading />
+    </div>
 
-            <h1>Add New Party</h1>
-          </button>
+    <div v-show="!loading">
+      <div class="text-white p-4">
+        <div>
+          <div class="text-gray-900 md:flex items-center gap-2 m-2">
+            <button class="button" @click="get_data">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh Data
+            </button>
+
+            <button @click="party_popup('show', 'Create')" class="button">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+              </svg>
+
+              <h1>Add New Party</h1>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div class="p-1 overflow-x-auto hidden">
-        <div class="overflow-x-auto relative">
-          <table>
+        <div class="p-1 overflow-x-auto hidden">
+          <div class="overflow-x-auto relative">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name & Address</th>
+                  <th>Contact Details</th>
+                  <th>Registration Details</th>
+                  <th>Contact Person Details</th>
+                  <th>Added By</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="party in parties" :key="party.p_uuid" class="bg-gray-800 text-gray-300 border-b">
+                  <td scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ party.PARTY }}
+                    <br />
+                    <i v-show="!party.party" class="text-red-300">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                    </i>
+                    <br>
+                    <div class="text-gray-300 text-xs ">
+                      {{ party.ADDRESS_1 }}
+                      <br />
+                      {{ party.ADDRESS_2 }}
+                    </div>
+
+                  </td>
+                  <td class="py-4 px-6">
+                    {{ party.p_contacts_phone }}
+                    <br />
+                    {{ party.p_contacts_fax }}
+                    <br />
+                    {{ party.p_contacts_phone }}
+                    <br />
+                    {{ party.p_contacts_website }}
+                  </td>
+                  <td class="py-4 px-6">
+                    {{ party.EMAIL }}
+                    <br />
+                    {{ party.p_contacts_phone }}
+                    <br />
+                    {{ party.p_contacts_fax }}
+                    <br />
+                    {{ party.p_contacts_website }}
+                  </td>
+                  <td class="py-4 px-6">
+                    {{ party.p_cp_1_name }}
+                    <br />
+                    {{ party.p_cp_1_phone }}
+                    <br />
+                    {{ party.p_cp_1_email }}
+                    <hr />
+                    {{ party.p_cp_2_name }}
+                    <br />
+                    {{ party.p_cp_2_phone }}
+                    <br />
+                    {{ party.p_cp_2_email }}
+                  </td>
+
+                  <td class="py-4 px-6">
+                    {{ party.p_author }}
+                    <br />
+                    <span class="text-xs" v-text="$moment(party.__createdtime__).fromNow()"></span>
+                  </td>
+                  <td class="py-4 px-6">
+                    <button class="hover:text-red-500" @click="delete_data(party.p_uuid)">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+
+                    <button class="hover:text-green-500" @click="party_popup('show', 'Edit', party)">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+          <table class="text-gray-900">
             <thead>
               <tr>
-                <th>Name & Address</th>
-                <th>Contact Details</th>
-                <th>Registration Details</th>
-                <th>Contact Person Details</th>
-                <th>Added By</th>
-                <th>Action</th>
+                <th> PARTY & STATUS </th>
+                <th> EMAIL </th>
+                <th> ADDRESS_1 </th>
+                <th> ADDRESS_2 </th>
+                <th> __createdtime__ <br /> __updatedtime__ </th>
+                <th> Action </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="party in parties" :key="party.p_uuid" class="bg-gray-800 text-gray-300 border-b">
-                <td scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {{ party.PARTY }}
-                  <br />
-                  <i v-show="!party.party" class="text-red-300">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                  </i>
-                  <br>
-                  <div class="text-gray-300 text-xs ">
-                    {{ party.ADDRESS_1 }}
-                    <br />
-                    {{ party.ADDRESS_2 }}
+              <tr v-for="p in parties" :key="p.id">
+                <td scope="row" class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <div> {{ p.party }} </div>
+                  <div :class="p.status == 'ACTIVE' ? 'text-green-500 text-xs' : 'text-red-500 text-xs'">
+                    {{ p.status }}
                   </div>
-
                 </td>
-                <td class="py-4 px-6">
-                  {{ party.p_contacts_phone }}
-                  <br />
-                  {{ party.p_contacts_fax }}
-                  <br />
-                  {{ party.p_contacts_phone }}
-                  <br />
-                  {{ party.p_contacts_website }}
-                </td>
-                <td class="py-4 px-6">
-                  {{ party.EMAIL }}
-                  <br />
-                  {{ party.p_contacts_phone }}
-                  <br />
-                  {{ party.p_contacts_fax }}
-                  <br />
-                  {{ party.p_contacts_website }}
-                </td>
-                <td class="py-4 px-6">
-                  {{ party.p_cp_1_name }}
-                  <br />
-                  {{ party.p_cp_1_phone }}
-                  <br />
-                  {{ party.p_cp_1_email }}
-                  <hr />
-                  {{ party.p_cp_2_name }}
-                  <br />
-                  {{ party.p_cp_2_phone }}
-                  <br />
-                  {{ party.p_cp_2_email }}
-                </td>
-
-                <td class="py-4 px-6">
-                  {{ party.p_author }}
-                  <br />
-                  <span class="text-xs" v-text="$moment(party.__createdtime__).fromNow()"></span>
-                </td>
-                <td class="py-4 px-6">
-                  <button class="hover:text-red-500" @click="delete_data(party.p_uuid)">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-
-                  <button class="hover:text-green-500" @click="party_popup('show', 'Edit', party)">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  </button>
+                <td class="lowercase"> {{ p.email }} </td>
+                <td> {{ p.address_1 }} </td>
+                <td> {{ p.address_2 }} </td>
+                <td> <span v-text="$moment(p.__createdtime__).fromNow()"></span> <br /> <span
+                    v-text="$moment(p.__updatedtime__).fromNow()"></span></td>
+                <td>
+                  <div class="flex items-center gap-2 " v-show="p.uuid">
+                    <nuxt-link :to="'party/' + p.uuid"><button class="button"> Edit </button></nuxt-link>
+                    <button class="button"> Deactivate </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
+
+
         </div>
-      </div>
-
-
-      <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-        <table>
-          <thead>
-            <tr>
-              <th> PARTY & STATUS </th>
-              <th> EMAIL </th>
-              <th> ADDRESS_1 </th>
-              <th> ADDRESS_2 </th>
-              <th> __createdtime__ <br /> __updatedtime__ </th>
-              <th> Action </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="p in parties" :key="p.id">
-              <td scope="row" class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                <div> {{ p.PARTY }} </div>
-                <div :class="p.STATUS == 'ACTIVE' ? 'text-green-500 text-xs' : 'text-red-500 text-xs'"> 
-                  {{ p.STATUS }} 
-                </div>                                                
-              </td>
-              <td> {{ p.EMAIL }} </td>
-              <td> {{ p.ADDRESS_1 }} </td>
-              <td> {{ p.ADDRESS_2 }} </td>
-              <td> {{ p.__createdtime__ }} <br /> {{ p.__updatedtime__ }} </td>
-              <td>
-                <div class="flex items-center gap-2 " v-show="p.id">
-                  <nuxt-link :to="'party/' + p.id"><button class="button"> Edit </button></nuxt-link>
-                  <button class="button"> Deactivate </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
 
       </div>
-
     </div>
 
     <Footer />
@@ -323,6 +330,7 @@ export default {
   data() {
     return {
       add_party_modal: false,
+      loading : true,
       password: '',
       edit_create: '',
       temp_party: {
@@ -377,28 +385,30 @@ export default {
       }
     },
 
-    get_data() {
+    async get_data() {
       let self = this
+      self.loading = true
       self.parties = [{
         PARTY: 'Loading...'
       }]
       // console.log('url is' + url)
-      const axios = require('axios').default
-      axios
-        .post(self.$store.state.api_url, {
-          data: self.$en({
-            operation: 'sql',
-            sql: 'select * from po.parties'
-          })
-        })
-        .then(function (response) {
-          console.log('this is party data', self.$de(response.data.data))
-          self.parties = self.$de(response.data.data)
-          console.log(self.parties)          
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+
+      var r = await self.napi('/parties/', {}, "GET")
+      console.log(r.data._data)
+      self.parties = r.data._data
+      self.loading = false
+
+      // const axios = require('axios').default
+      // axios
+      //   .get(self.$store.state.api_url + "/parties")
+      //   .then(function (response) {
+      //     //console.log('this is party data', self.$de(response.data.data))
+      //     self.parties = response.data.data
+      //     console.log(self.parties)          
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error)
+      //   })
     },
 
     delete_data(x) {

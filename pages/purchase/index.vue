@@ -8,12 +8,7 @@
       <div class="w-full my-10">
         <Isloading v-show="is_loading_orders" />
         <table v-show="!is_loading_orders" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="
-                  text-xs text-gray-700
-                  uppercase
-                  bg-gray-50
-                  dark:bg-gray-700 dark:text-gray-400
-                ">
+          <thead class="text-xs text-gray-700 bg-primary-700 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th>PO NUMBER</th>
               <th>SUPPLIER</th>
