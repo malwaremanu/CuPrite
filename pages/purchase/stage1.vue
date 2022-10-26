@@ -127,10 +127,10 @@
 
           <div class="p-4 flex items-center gap-2">
             <button @click="add(data)" class="button">{{ create }}</button>
-            <button class="button" @click="test_console(sample_products)">
+            <button class="hidden" @click="test_console(sample_products)">
               Post to console
             </button>
-            <button class="button">First Part</button>
+            <button class="hidden">First Part</button>
           </div>
         </div>
       </div>
