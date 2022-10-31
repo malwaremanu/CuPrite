@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div v-show="!loaded">
       <div v-show="!error" class="uppercase font-semibold text-center mx-auto mt-10">
         Please Wait. We are loading the purchase order

@@ -41,7 +41,7 @@
 
           <div class="grid-3">
             <div>
-              <label>Quote / Reference {{data.quote_ref}} </label>
+              <label>Quote / Reference </label>
               <input class="uppercase" type="text" @keyup="$event.target.value = $event.target.value.toUpperCase()" v-model="data.quote_ref" />
             </div>
 
@@ -127,7 +127,7 @@
 
           <div class="p-4 flex items-center gap-2">
             <button @click="add(data)" class="button">{{ create }}</button>
-            <button class="hidden" @click="test_console(sample_products)">
+            <button class="button" @click="test_console(sample_products)">
               Post to console
             </button>
             <button class="hidden">First Part</button>
@@ -154,28 +154,47 @@ export default {
       companies: {},
       tva_rates: {},
       // data: {},    // JSON Data
-      data: {
+      data: 
+      {
+        'company': 'SEMHKAT',
+        'date': '30-03-2022',
+        'discount': null,
         'discount_type': 'flat',
         'flat_discount_type': 'percentage',
-        "discount": "",
-
-        "tva_rate": 16,
-        "tva_amount" : 0,
-        "total_amount": "",
+        'gross_total': null,
         
-        "company": "Suryamines",
-        "party": "",
-        
-        "gross_total": "",
-        "type": "Purchase",
-
-        "quote_ref": "some quote",
-        "quote_ref_date": "",
-
-        "date": "2022-09-07",        
-                
-        "remark": "some remark",
+        'quote_ref': '--',
+        'quote_ref_date': 0,
+        'remark': '--',
+        'status': null,
+        'total_amount': null,
+        'tva_amount': null,
+        'tva_rate': '16%',
+        'type': 'PURCHASE'
       },
+
+      // {
+      //   'discount_type': 'flat',
+      //   'flat_discount_type': 'percentage',
+      //   "discount": "",
+
+      //   "tva_rate": 16,
+      //   "tva_amount" : 0,
+      //   "total_amount": "",
+        
+      //   "company": "Suryamines",
+      //   "party": "",
+        
+      //   "gross_total": "",
+      //   "type": "Purchase",
+
+      //   "quote_ref": "some quote",
+      //   "quote_ref_date": "",
+
+      //   "date": "2022-09-07",        
+                
+      //   "remark": "some remark",
+      // },
       create: 'Add Products Now',
       ref_data: {
         id: 100,
@@ -190,9 +209,7 @@ export default {
         total_amount: '',
         tva_amount: '',
         tva_rate: '',
-        type: 'purchase',
-        __createdtime__: 1662989993547,
-        __updatedtime__: 1662990610895,
+        type: 'purchase'
       },
     }
   },
@@ -248,14 +265,14 @@ export default {
 
 <style>
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
+/* input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
+} */
 
 /* Firefox */
-input[type='number'] {
+/* input[type='number'] {
   -moz-appearance: textfield;
-}
+} */
 </style>

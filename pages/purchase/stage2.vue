@@ -70,7 +70,7 @@
                       @keyup="
                         $event.target.value = $event.target.value.toUpperCase()
                       "
-                      v-model="p.product_number"
+                      v-model="p.part_no"
                     />
                     <span class="text-xs hidden" v-text="uuidv4()"></span>
                   </th>
@@ -423,7 +423,8 @@ export default {
       const self = this
       self.loading = true
       var r = await self.napi('/purchase/' + self.$route.query.q, {}, 'GET')
-      self.order_details = r.data._data[0]
+      console.log(r.data)
+      self.order_details = r.data
       self.loading = false
     },
     uuidv4() {
