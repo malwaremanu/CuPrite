@@ -308,10 +308,8 @@
               {{ create }}
             </button>
 
-            <button class="button" @click="test_console(sample_products)">
-              Post to console
-            </button>
-            <button class="button">First Part</button>
+            <button class="hidden" @click="test_console(sample_products)"> Post to console </button>
+            <button class="hidden">First Part</button>
           </div>
         </div>
       </div>
@@ -415,16 +413,24 @@ export default {
   },
   methods: {
     test_console(x) {
-      console.clear()
+      // console.clear()
       console.log(this.data)
       console.log(x)
     },
     async get_order_details() {
       const self = this
       self.loading = true
-      var r = await self.napi('/purchase/' + self.$route.query.q, {}, 'GET')
+      var r = await self.napi('/purchase/' + self.$route.query.q, {}, 'GET')      
+      console.clear()
       console.log(r.data)
       self.order_details = r.data
+
+      var p = await self.napi('/purchase/' + self.$route.query.q + '/products', {}, 'GET')
+      console.log('p.data', p.data._data)
+      if(p.data._data.length >= 1){
+        self.sample_products  = p.data._data
+      }
+
       self.loading = false
     },
     uuidv4() {
@@ -532,7 +538,7 @@ export default {
       }
     },
     calculate_amount(p) {
-      console.clear()
+      // console.clear()
       const self = this
       self.calculte_tva_amount()
 
@@ -589,7 +595,7 @@ export default {
     },
     calculate_gross_amount(sample_products) {
       const self = this
-      console.clear()
+      // console.clear()
 
       // defining discount
       console.log('dis', self.order_details.discount)
@@ -624,7 +630,7 @@ export default {
             // deducting discount if any
             parseFloat(discount)
         ).toFixed(2)
-        console.clear()
+        // console.clear()
         return self.order_details.gross_total
       } else {
         console.log('we got multiple products')
@@ -637,13 +643,13 @@ export default {
             (parseInt(tax) == 0 ? 1 : 1 + parseInt(tax) / 100) -
           parseFloat(discount)
         ).toFixed(2)
-        console.clear()
+        // console.clear()
         return self.order_details.gross_total
       }
     },
     async update_po(po, products) {
       const self = this
-      console.clear()
+      // console.clear()
       var temp = {
         total_amount: po.total_amount,
         tva_rate: po.tva_rate,
@@ -661,6 +667,7 @@ export default {
 
       self.loading = false
       alert(r.data._data.order.message)
+      alert(r.data._data.products.message)
       console.log('---- updated PO', r.data)
     },
   },
